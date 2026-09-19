@@ -54,7 +54,7 @@ if not a.headless:
 # ---- keyboard: held keys -> velocity command -----------------------------------------------------------------------
 KEYS = {"W": (1, 0, 0), "UP": (1, 0, 0), "S": (-1, 0, 0), "DOWN": (-1, 0, 0), "A": (0, 1, 0), "LEFT": (0, 1, 0),
         "D": (0, -1, 0), "RIGHT": (0, -1, 0), "Q": (0, 0, 1), "E": (0, 0, -1)}
-held, reset_req = set(), [False]
+held, reset_req, last_cmd = set(), [False], [""]
 def command():
     v = np.zeros(3)
     for k in held: v += KEYS[k]
@@ -62,12 +62,16 @@ def command():
 if not a.headless:
     import omni.appwindow
     def on_key(ev, *args):
+        # every key press also sends a CHAR event whose .input is the typed str, so check the type before .name
+        if ev.type not in (carb.input.KeyboardEventType.KEY_PRESS, carb.input.KeyboardEventType.KEY_RELEASE): return True
         name = ev.input.name
         if ev.type == carb.input.KeyboardEventType.KEY_PRESS:
             if name in KEYS: held.add(name)
             elif name == "R": reset_req[0] = True
-        elif ev.type == carb.input.KeyboardEventType.KEY_RELEASE:
+        else:
             held.discard(name)
+        c = "[teleop] cmd vx %.2f vy %.2f wz %.2f" % tuple(command())
+        if c != last_cmd[0]: print(c, flush=True); last_cmd[0] = c
         return True
     _input = carb.input.acquire_input_interface()
     _kb_sub = _input.subscribe_to_keyboard_events(omni.appwindow.get_default_app_window().get_keyboard(), on_key)
