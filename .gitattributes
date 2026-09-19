@@ -1,0 +1,7 @@
+# Scene objects added for the teleop/warehouse work go through Git LFS. Upstream's own assets/ files stay as they were.
+assets/ball_valve/** filter=lfs diff=lfs merge=lfs -text
+assets/clutter/** filter=lfs diff=lfs merge=lfs -text
+assets/drill/** filter=lfs diff=lfs merge=lfs -text
+assets/honeycomb/** filter=lfs diff=lfs merge=lfs -text
+assets/jar/** filter=lfs diff=lfs merge=lfs -text
+assets/veja/** filter=lfs diff=lfs merge=lfs -text

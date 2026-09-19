@@ -1,0 +1,175 @@
+policy_joint_order:
+  - fl_hx
+  - fr_hx
+  - hl_hx
+  - hr_hx
+  - fl_hy
+  - fr_hy
+  - hl_hy
+  - hr_hy
+  - fl_kn
+  - fr_kn
+  - hl_kn
+  - hr_kn
+  - arm_sh0
+  - arm_sh1
+  - arm_el0
+  - arm_el1
+  - arm_wr0
+  - arm_wr1
+  - arm_f1x
+
+physics_dt: 0.005
+decimation: 4
+action_scale: 0.2
+
+standalone_leg_defaults:
+  fl_hx: 0.12
+  fr_hx: -0.12
+  hl_hx: 0.12
+  hr_hx: -0.12
+  fl_hy: 0.5
+  fr_hy: 0.5
+  hl_hy: 0.5
+  hr_hy: 0.5
+  fl_kn: -1.0
+  fr_kn: -1.0
+  hl_kn: -1.0
+  hr_kn: -1.0
+
+stable_arm_defaults:
+  arm_sh0: 0.0
+  arm_sh1: -0.9
+  arm_el0: 1.8
+  arm_el1: 0.0
+  arm_wr0: -0.9
+  arm_wr1: 0.0
+  arm_f1x: -1.54
+
+trained_gains:
+  legs_hxy:
+    kp: 60.0
+    kd: 1.5
+    effort: 45.0
+  legs_kn:
+    kp: 60.0
+    kd: 1.5
+    effort: 120.0
+  arm_sh0:
+    kp: 120.0
+    kd: 8.0
+    effort: 90.9
+  arm_sh1:
+    kp: 120.0
+    kd: 8.0
+    effort: 181.8
+  arm_el0:
+    kp: 120.0
+    kd: 5.0
+    effort: 90.9
+  arm_el1:
+    kp: 100.0
+    kd: 4.0
+    effort: 30.3
+  arm_wr0:
+    kp: 100.0
+    kd: 4.0
+    effort: 30.3
+  arm_wr1:
+    kp: 100.0
+    kd: 4.0
+    effort: 30.3
+  arm_f1x:
+    kp: 16.0
+    kd: 0.32
+    effort: 15.32
+
+csv_path: /workspace/spot-locomanipulation/source/spot_loco/spot_loco/assets/spot/reachability_results.csv
+csv_joint_cols:
+  - arm_sh0
+  - arm_sh1
+  - arm_el0
+  - arm_el1
+  - arm_wr0
+  - arm_wr1
+  - arm_f1x
+
+difficulty_groups:
+  easy:
+    - 26
+    - 67
+    - 16
+    - 68
+    - 69
+    - 34
+    - 51
+    - 40
+    - 27
+    - 10
+    - 65
+    - 32
+    - 43
+    - 62
+    - 12
+    - 29
+    - 11
+    - 66
+    - 49
+    - 50
+    - 14
+    - 2
+    - 61
+  medium:
+    - 15
+    - 18
+    - 9
+    - 41
+    - 5
+    - 48
+    - 39
+    - 42
+    - 21
+    - 1
+    - 28
+    - 70
+    - 36
+    - 55
+    - 35
+    - 4
+    - 17
+    - 25
+    - 54
+    - 63
+    - 60
+    - 44
+    - 30
+    - 56
+    - 58
+    - 59
+    - 37
+    - 13
+    - 24
+    - 31
+    - 7
+    - 19
+    - 52
+    - 6
+    - 64
+    - 3
+    - 46
+    - 47
+    - 45
+    - 38
+    - 8
+    - 53
+  hard:
+    - 57
+    - 23
+    - 22
+    - 33
+    - 20
+
+arm_tracking:
+  max_vel: 0.8
+  pose_hold_s: 8.0
+  default_hold_s: 5.0
