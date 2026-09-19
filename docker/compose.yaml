@@ -2,6 +2,7 @@
 #   docker compose -f docker/compose.yaml up -d --build
 #   docker compose -f docker/compose.yaml exec isaac /isaac-sim/python.sh spot_isaac6/walk.py
 # The repo is mounted at /repo, so paths in the README work inside the container as written.
+name: spot-isaac-sim
 services:
   isaac:
     build: .
