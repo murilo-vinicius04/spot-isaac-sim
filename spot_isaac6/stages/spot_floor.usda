@@ -1191,6 +1191,22 @@ def Xform "World"
                                         {
                                             custom rel material:binding:physics = </World/looks/spot_phys>
                                         }
+
+                                        def Camera "cam_hand" (
+                                            customData = {
+                                                dictionary spot = {
+                                                    int2 resolution = (640, 480)
+                                                }
+                                            }
+                                        )
+                                        {
+                                            float2 clippingRange = (0.01, 100)
+                                            float focalLength = 18
+                                            float horizontalAperture = 20.955
+                                            float verticalAperture = 15.71625
+                                            matrix4d xformOp:transform = ( (0, -1, 0, 0), (0, 0, 1, 0), (-1, 0, 0, 0), (0.15, 0, 0.05, 1) )
+                                            uniform token[] xformOpOrder = ["xformOp:transform"]
+                                        }
                                     }
                                 }
 
@@ -1231,6 +1247,86 @@ def Xform "World"
                 )
                 {
                     custom rel material:binding:physics = </World/looks/spot_phys>
+                }
+
+                def Camera "cam_frontleft" (
+                    customData = {
+                        dictionary spot = {
+                            int2 resolution = (640, 480)
+                        }
+                    }
+                )
+                {
+                    float2 clippingRange = (0.01, 100)
+                    float focalLength = 10.8
+                    float horizontalAperture = 20.955
+                    float verticalAperture = 15.71625
+                    matrix4d xformOp:transform = ( (-0.47244542788749433, -0.856786589473471, 0.20666895694956275, 0), (0.4140606732056879, -0.008764753210909108, 0.9102070852314897, 0), (-0.7780418218660581, 0.5155966632936736, 0.358902499612047, 0), (0.38939414858733923, 0.031124546214906616, -0.05145051813312267, 1) )
+                    uniform token[] xformOpOrder = ["xformOp:transform"]
+                }
+
+                def Camera "cam_frontright" (
+                    customData = {
+                        dictionary spot = {
+                            int2 resolution = (640, 480)
+                        }
+                    }
+                )
+                {
+                    float2 clippingRange = (0.01, 100)
+                    float focalLength = 10.8
+                    float horizontalAperture = 20.955
+                    float verticalAperture = 15.71625
+                    matrix4d xformOp:transform = ( (0.46833577339423815, -0.858293324272757, -0.2097478792933097, 0), (0.4187887783828362, 0.0066063452372506085, 0.908059643031898, 0), (-0.7779958627523881, -0.5131168733450756, 0.3625376005723285, 0), (0.38957461073750255, -0.03227095835452636, -0.05082582599691799, 1) )
+                    uniform token[] xformOpOrder = ["xformOp:transform"]
+                }
+
+                def Camera "cam_left" (
+                    customData = {
+                        dictionary spot = {
+                            int2 resolution = (640, 480)
+                        }
+                    }
+                )
+                {
+                    float2 clippingRange = (0.01, 100)
+                    float focalLength = 10.8
+                    float horizontalAperture = 20.955
+                    float verticalAperture = 15.71625
+                    matrix4d xformOp:transform = ( (0.9999996829318346, -0.0007963267107332633, 0, 0), (0, 0, 1, 0), (-0.0007963267107332633, -0.9999996829318346, 0, 0), (0.00003981633553666317, 0.14999998414659174, 0.02, 1) )
+                    uniform token[] xformOpOrder = ["xformOp:transform"]
+                }
+
+                def Camera "cam_right" (
+                    customData = {
+                        dictionary spot = {
+                            int2 resolution = (640, 480)
+                        }
+                    }
+                )
+                {
+                    float2 clippingRange = (0.01, 100)
+                    float focalLength = 10.8
+                    float horizontalAperture = 20.955
+                    float verticalAperture = 15.71625
+                    matrix4d xformOp:transform = ( (-0.9999996829318346, -0.0007963267107332633, 0, 0), (0, 0, 1, 0), (-0.0007963267107332633, 0.9999996829318346, 0, 0), (0.00003981633553666317, -0.14999998414659174, 0.02, 1) )
+                    uniform token[] xformOpOrder = ["xformOp:transform"]
+                }
+
+                def Camera "cam_rear" (
+                    customData = {
+                        dictionary spot = {
+                            int2 resolution = (640, 480)
+                        }
+                    }
+                )
+                {
+                    float2 clippingRange = (0.01, 100)
+                    float focalLength = 10.8
+                    float horizontalAperture = 20.955
+                    float verticalAperture = 15.71625
+                    matrix4d xformOp:transform = ( (0.0015926529164868282, 0.9999987317275395, 0, 0), (0, 0, 1, 0), (0.9999987317275395, -0.0015926529164868282, 0, 0), (-0.5099999239036523, 0.00009555917498920968, 0, 1) )
+                    uniform token[] xformOpOrder = ["xformOp:transform"]
                 }
             }
         }

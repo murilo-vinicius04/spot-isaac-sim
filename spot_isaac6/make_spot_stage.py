@@ -26,6 +26,7 @@ ap.add_argument("--spot-xy", type=float, nargs=2, default=None); ap.add_argument
 ap.add_argument("--z", type=float, default=0.65, help="initial base height (SPOT_DEFAULT_POS z)")
 ap.add_argument("--act", choices=["explicit", "implicit"], default="explicit")
 ap.add_argument("--robot-mu", type=float, default=1.0)
+ap.add_argument("--no-cameras", action="store_true", help="skip the 6 Spot cameras (cameras.py)")
 a = ap.parse_args(); D2R = math.pi / 180
 assert bool(a.open_floor) != bool(a.base), "give exactly one of --open-floor or --base <scene.usda>"
 LEG = {"hx": (60.0, 1.5, 45.0), "hy": (60.0, 1.5, 45.0), "kn": (60.0, 1.5, 80.0)}   # implicit only: knee 80 = table plateau
@@ -108,6 +109,10 @@ for c in COLS:
     pr = st.OverridePrim(c); pr.AddAppliedSchema("MaterialBindingAPI")
     pr.CreateRelationship("material:binding:physics").SetTargets([rp.GetPath()])
 print("robot material mu %.2f (combine max) on %d colliders" % (a.robot_mu, len(COLS)))
+if not a.no_cameras:                                   # hand + 5 body cameras, as children of their links (cameras.py)
+    import sys; sys.path.insert(0, HERE); from cameras import author_spot_cameras
+    links = {q.rsplit("/", 1)[-1]: q for q in ALL}
+    print("cameras:", ", ".join(c.rsplit("/", 1)[-1] for c in author_spot_cameras(st, links)))
 def drive(j, kp, kd, fmax, target, armature=0.0, friction=0.0):
     p = st.OverridePrim(f"/World/spot/Physics/{j}")
     p.AddAppliedSchema("PhysicsDriveAPI:angular"); p.AddAppliedSchema("PhysicsJointStateAPI:angular"); p.AddAppliedSchema("PhysxJointAxisAPI:angular")

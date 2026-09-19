@@ -19,6 +19,7 @@ ap.add_argument("--steps", type=int, default=500, help="control steps at 50 Hz (
 ap.add_argument("--lag", type=int, default=2, help="last_actions lag in policy queries (C.0 trap 2: 2 is what trained)")
 ap.add_argument("--no-arm-fix", action="store_true", help="feed raw arm angles (C.0 trap 1) - for A/B only")
 ap.add_argument("--no-video", action="store_true")
+ap.add_argument("--camera-snap-at", type=float, nargs="*", default=[], help="save one image from every Spot camera (cameras.py) at these times (s)")
 ap.add_argument("--track", nargs="*", default=[], help="rigid-body prims whose displacement to report (e.g. objects Spot must not disturb)")
 ap.add_argument("--stop-after", type=float, default=None, help="switch the command to (0,0,0) at this time (s). The policy never\n                saw a mid-episode command change in training (C.3.1), so stopping is itself under test")
 a = ap.parse_args()
@@ -61,6 +62,21 @@ if not a.no_video:
     rp = rep.create.render_product("/World/follow_cam", (1280, 720)); fdir = os.path.join(a.out, "frames"); os.makedirs(fdir, exist_ok=True)
     for f_ in os.listdir(fdir): os.remove(os.path.join(fdir, f_))
     wr = rep.WriterRegistry.get("BasicWriter"); wr.initialize(output_dir=fdir, rgb=True); wr.attach([rp])   # writes every update
+
+# ---- Spot cameras (authored by make_spot_stage.py): render products exist only when snapshots are requested ------------
+SNAPS = sorted(a.camera_snap_at); snap_dir = os.path.join(a.out, "cameras")
+if SNAPS:
+    import omni.replicator.core as rep, carb
+    from pxr import Usd
+    carb.settings.get_settings().set("/omni/replicator/captureOnPlay", True)
+    CAMS = [p_ for p_ in Usd.PrimRange(stage.GetPrimAtPath("/World/spot")) if p_.GetTypeName() == "Camera" and p_.GetName().startswith("cam_")]
+    cam_rps = {c.GetName()[4:]: rep.create.render_product(str(c.GetPath()), tuple(c.GetCustomDataByKey("spot:resolution") or (640, 480))) for c in CAMS}
+    print("[walk] Spot cameras:", sorted(cam_rps), flush=True)
+    snap_wr = {}
+    for n_, rp_ in cam_rps.items():
+        d_ = os.path.join(snap_dir, n_); os.makedirs(d_, exist_ok=True)
+        for f_ in os.listdir(d_): os.remove(os.path.join(d_, f_))
+        w_ = rep.WriterRegistry.get("BasicWriter"); w_.initialize(output_dir=d_, rgb=True); snap_wr[n_] = (w_, rp_)
 
 # ---- controller: runs before EVERY 5 ms physics step ---------------------------------------------------------------------
 pol = Legcol60Policy(a.onnx, (a.vx, a.vy, a.wz), a.height, lag=a.lag, arm_fix=not a.no_arm_fix)
@@ -128,7 +144,17 @@ from omni.physx import get_physx_interface
 tl = omni.timeline.get_timeline_interface(); tl.play()
 c0 = {}                                                # filled on the first physics step (not valid before)
 wall0 = time.time(); updates = 0
+snap_on = False
 while not S["done"] and updates < 20 * a.steps:
+    if SNAPS and not snap_on and S["k"] * 0.02 >= SNAPS[0]:          # attach until every camera has written one image
+        n_before = {n_: len(os.listdir(os.path.join(snap_dir, n_))) for n_ in snap_wr}
+        for w_, rp_ in snap_wr.values(): w_.attach([rp_])
+        snap_on, snap_n = True, 0; print("[walk] camera snapshot at t=%.2f" % (S["k"] * 0.02), flush=True)
+    elif snap_on:
+        snap_n += 1
+        if snap_n >= 30 or all(len(os.listdir(os.path.join(snap_dir, n_))) > n_before[n_] for n_ in snap_wr):
+            for w_, rp_ in snap_wr.values(): w_.detach()
+            snap_on = False; SNAPS.pop(0)
     app.update(); updates += 1
     if S["art"] is not None and S["trace"]:
         aim(S["trace"]["root_pos_w"][-1][0])
@@ -136,6 +162,10 @@ tl.pause()
 c1 = {L: np.array(get_physx_interface().get_rigidbody_transformation(L)["position"]) for L in TRACK}
 if not a.no_video:                                             # frames are written asynchronously: wait for all of them
     wr.detach(); print("[walk] video frames written:", wait_for_pngs(fdir, n_min=1), flush=True)
+if a.camera_snap_at:
+    if snap_on:
+        for w_, rp_ in snap_wr.values(): w_.detach()
+    print("[walk] camera images:", {n_: wait_for_pngs(os.path.join(snap_dir, n_), n_min=1, max_s=30) for n_ in snap_wr}, flush=True)
 tr = {k: np.stack(v) for k, v in S["trace"].items()}
 np.savez(os.path.join(a.out, "trace.npz"), **tr)
 rz = tr["root_pos_w"][:, 0]; vb = tr["lin_vel_b"][:, 0]; ok = slice(25, None)
