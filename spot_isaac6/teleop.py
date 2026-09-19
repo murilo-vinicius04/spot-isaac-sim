@@ -89,6 +89,20 @@ if not a.headless:
         print("[teleop] could not release Kit hotkeys:", e, flush=True)
     print("[teleop] keys: W/S forward/back, A/D sideways, Q/E turn, R reset (click the Isaac window first)", flush=True)
 
+# ---- or from a separate terminal: spot_isaac6/drive.py sends {"cmd": [vx, vy, wz], "reset": bool} over UDP ------------
+import socket
+udp = socket.socket(socket.AF_INET, socket.SOCK_DGRAM); udp.bind(("127.0.0.1", 9870)); udp.setblocking(False)
+U = {"cmd": None, "t": 0.0, "peer": None}
+def poll_udp():
+    try:
+        while True:
+            data, U["peer"] = udp.recvfrom(4096); m = json.loads(data)
+            U["cmd"] = np.clip(np.array(m["cmd"], np.float32), [-a.vx, -a.vy, -a.wz], [a.vx, a.vy, a.wz]).astype(np.float32); U["t"] = time.time()
+            if m.get("reset"): reset_req[0] = True
+    except (BlockingIOError, ValueError, KeyError): pass
+def udp_command():                                 # drive.py wins while it is sending; silence for 0.5 s stops Spot
+    return U["cmd"] if U["cmd"] is not None and time.time() - U["t"] < 0.5 else None
+
 # ---- controller: runs before every 5 ms physics step (same law as walk.py) ------------------------------------------
 pol = Legcol60Policy(a.onnx, (0.0, 0.0, 0.0), a.height)
 S = {"art": None, "n": 0, "k": 0, "target": np.concatenate([REF, STOW]).astype(np.float32), "fell": False, "log": []}
@@ -131,7 +145,7 @@ def _step(dt):
             if fell and not S["fell"]: print("[teleop] Spot fell - press R to reset", flush=True)
             S["fell"] = fell
             if a.script: S["log"].append([S["k"] * 0.02, *pol.cmd.tolist(), *(R.T @ vel[:3])[:2].tolist(), (R.T @ vel[3:6])[2], root[0], root[1], root[2], float(fell)])
-        pol.cmd = command()
+        uc = udp_command(); pol.cmd = command() if uc is None or held else uc
         legs = pol.query(R.T @ vel[3:6], R.T @ np.array([0, 0, -1.0]), q, qd)
         S["target"] = np.concatenate([legs, STOW]).astype(np.float32)
     tau = pd_torque(S["target"], q, qd); ta = np.zeros(len(S["dofs"]), np.float32); ta[S["d2a"]] = tau
@@ -180,10 +194,15 @@ while app.is_running():
             if cur == "R": reset_req[0] = True
             elif cur in KEYS: held.add(cur)
             print("[teleop] t=%.2f key %s for %.1f s" % (t, cur or "-", sec), flush=True)
+    poll_udp()
     _t = time.perf_counter(); app.update(); PROF["upd"] += time.perf_counter() - _t; PROF["n_upd"] += 1
     if S["art"] is not None:
         r = S["art"].get_root_transforms().numpy()[0]; x, y, z, w = r[3:7]
         aim(r[:3], np.arctan2(2 * (w * z + x * y), 1 - 2 * (y * y + z * z)))
+        if U["peer"] is not None and udp_command() is not None:
+            v = S["art"].get_root_velocities().numpy()[0]
+            udp.sendto(json.dumps({"t": S["k"] * 0.02, "x": float(r[0]), "y": float(r[1]), "speed": float(np.linalg.norm(v[:2])),
+                                   "fell": S["fell"]}).encode(), U["peer"])
 if a.script:
     os.makedirs(a.out, exist_ok=True)
     cols = ["t", "cmd_vx", "cmd_vy", "cmd_wz", "vx", "vy", "wz", "x", "y", "z", "fell"]
