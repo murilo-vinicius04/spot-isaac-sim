@@ -23,6 +23,8 @@ ap.add_argument("--camera-snap-at", type=float, nargs="*", default=[], help="sav
 ap.add_argument("--track", nargs="*", default=[], help="rigid-body prims whose displacement to report (e.g. objects Spot must not disturb)")
 ap.add_argument("--stop-after", type=float, default=None, help="switch the command to (0,0,0) at this time (s). The policy never\n                saw a mid-episode command change in training (C.3.1), so stopping is itself under test")
 a = ap.parse_args()
+# absolute: a relative stage path makes Kit resolve "../" asset references from the wrong directory (robot silently missing)
+a.stage = os.path.abspath(a.stage)
 if a.out is None: a.out = os.path.join(HERE, "runs", os.path.splitext(os.path.basename(a.stage))[0])
 from isaacsim import SimulationApp
 app = SimulationApp({"headless": True, "renderer": "RayTracedLighting", "width": 1280, "height": 720, "multi_gpu": False})
@@ -46,6 +48,12 @@ def wait_for_pngs(d, n_min=0, quiet_s=2.0, max_s=60.0):
 ctx = omni.usd.get_context(); print("[walk] open_stage ->", ctx.open_stage(a.stage), flush=True)
 stage = ctx.get_stage()
 for _ in range(20): app.update()
+from pxr import UsdPhysics as _UP
+_root = stage.GetPrimAtPath("/World/spot/Geometry/body")
+if not (_root.IsValid() and _root.HasAPI(_UP.ArticulationRootAPI)):
+    print("[walk] ERROR: no Spot articulation at /World/spot/Geometry/body in", a.stage, "- was the stage made by make_spot_stage.py,"
+          " and does its robot reference resolve?", flush=True)
+    import sys; sys.stdout.flush(); os._exit(2)
 os.makedirs(a.out, exist_ok=True)
 cam = UsdGeom.Camera.Define(stage, "/World/follow_cam"); cam.CreateFocalLengthAttr(18.0); cam.CreateHorizontalApertureAttr(20.955)
 cam.CreateVerticalApertureAttr(11.787); cam.CreateClippingRangeAttr(Gf.Vec2f(0.02, 100.0)); cam_op = cam.AddTransformOp()
