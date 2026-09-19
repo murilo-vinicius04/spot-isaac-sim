@@ -16,6 +16,10 @@ ap.add_argument("--vx", type=float, default=0.5, help="forward/back speed while 
 ap.add_argument("--vy", type=float, default=0.4, help="sideways speed (m/s)")
 ap.add_argument("--wz", type=float, default=0.5, help="turn rate (rad/s)")
 ap.add_argument("--frame-dt", default="auto", help='sim time per rendered frame (s); "auto" keeps sim at real time')
+ap.add_argument("--cam-dist", type=float, default=3.6, help="follow camera: horizontal distance from Spot (m)")
+ap.add_argument("--cam-height", type=float, default=2.0, help="follow camera: height above the floor (m)")
+ap.add_argument("--cam-side", type=float, default=40.0, help="follow camera: degrees off straight-behind (+ = Spot's left)")
+ap.add_argument("--cam-lead", type=float, default=0.8, help="follow camera: aim this far ahead of Spot (m)")
 ap.add_argument("--headless", action="store_true")
 ap.add_argument("--script", default=None, help='headless key sequence, e.g. "W:3,Q:2,-:2" (key:seconds)')
 ap.add_argument("--out", default=os.path.join(HERE, "runs", "teleop"), help="with --script: where RESULT.json and the log go")
@@ -36,11 +40,13 @@ if not (_root.IsValid() and _root.HasAPI(UsdPhysics.ArticulationRootAPI)):
     print("[teleop] ERROR: no Spot articulation at /World/spot/Geometry/body in", a.stage, flush=True); os._exit(2)
 
 # chase camera behind Spot, used as the viewport camera
-cam = UsdGeom.Camera.Define(stage, "/World/follow_cam"); cam.CreateFocalLengthAttr(18.0); cam.CreateHorizontalApertureAttr(20.955)
+cam = UsdGeom.Camera.Define(stage, "/World/follow_cam"); cam.CreateFocalLengthAttr(16.0); cam.CreateHorizontalApertureAttr(20.955)
 cam.CreateVerticalApertureAttr(11.787); cam.CreateClippingRangeAttr(Gf.Vec2f(0.02, 200.0)); cam_op = cam.AddTransformOp()
 def aim(base, yaw):
-    back = np.array([np.cos(yaw), np.sin(yaw), 0.0])
-    tgt = np.array([base[0], base[1], 0.35]); eye = tgt - 2.6 * back + np.array([0, 0, 1.1]); f = tgt - eye; f /= np.linalg.norm(f)
+    # three-quarter view: behind and to one side, above the robot, looking at a point a little ahead of it
+    fwd = np.array([np.cos(yaw), np.sin(yaw), 0.0]); ang = yaw + np.pi + np.radians(a.cam_side)
+    tgt = np.array([base[0], base[1], 0.3]) + a.cam_lead * fwd
+    eye = np.array([base[0] + a.cam_dist * np.cos(ang), base[1] + a.cam_dist * np.sin(ang), a.cam_height]); f = tgt - eye; f /= np.linalg.norm(f)
     r = np.cross(f, [0, 0, 1.0]); r /= np.linalg.norm(r); u = np.cross(r, f); M = np.eye(4); M[:3, 0] = r; M[:3, 1] = u; M[:3, 2] = -f; M[:3, 3] = eye
     cam_op.Set(Gf.Matrix4d(*M.T.flatten().tolist()))
 p0 = np.array(UsdGeom.Xformable(stage.GetPrimAtPath("/World/spot")).ComputeLocalToWorldTransform(0).ExtractTranslation()); aim(p0, 0.0)
