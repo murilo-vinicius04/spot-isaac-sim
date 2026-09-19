@@ -15,6 +15,7 @@ ap.add_argument("--height", type=float, default=0.56)
 ap.add_argument("--vx", type=float, default=0.5, help="forward/back speed while the key is held (m/s)")
 ap.add_argument("--vy", type=float, default=0.4, help="sideways speed (m/s)")
 ap.add_argument("--wz", type=float, default=0.5, help="turn rate (rad/s)")
+ap.add_argument("--frame-dt", default="auto", help='sim time per rendered frame (s); "auto" keeps sim at real time')
 ap.add_argument("--headless", action="store_true")
 ap.add_argument("--script", default=None, help='headless key sequence, e.g. "W:3,Q:2,-:2" (key:seconds)')
 ap.add_argument("--out", default=os.path.join(HERE, "runs", "teleop"), help="with --script: where RESULT.json and the log go")
@@ -75,6 +76,17 @@ if not a.headless:
         return True
     _input = carb.input.acquire_input_interface()
     _kb_sub = _input.subscribe_to_keyboard_events(omni.appwindow.get_default_app_window().get_keyboard(), on_key)
+    # Kit binds Q/W/E/R to its select/move/rotate/scale tools; drop Kit's own bindings for our keys while teleop runs
+    # (only this session: Kit does not save deregistered built-in hotkeys)
+    try:
+        from omni.kit.hotkeys.core import get_hotkey_registry
+        reg = get_hotkey_registry(); dropped = []
+        for k in list(KEYS) + ["R"]:
+            for hk in reg.get_all_hotkeys_for_key(k):
+                reg.deregister_hotkey(hk); dropped.append(repr(hk))
+        print("[teleop] released Kit hotkeys:", ", ".join(dropped) or "none", flush=True)
+    except Exception as e:
+        print("[teleop] could not release Kit hotkeys:", e, flush=True)
     print("[teleop] keys: W/S forward/back, A/D sideways, Q/E turn, R reset (click the Isaac window first)", flush=True)
 
 # ---- controller: runs before every 5 ms physics step (same law as walk.py) ------------------------------------------
@@ -82,7 +94,15 @@ pol = Legcol60Policy(a.onnx, (0.0, 0.0, 0.0), a.height)
 S = {"art": None, "n": 0, "k": 0, "target": np.concatenate([REF, STOW]).astype(np.float32), "fell": False, "log": []}
 def reset_policy():
     pol.h[:] = 0; pol.hist = [REF.copy()] * pol.lag; pol.phase = 0.0; pol.fh = np.full(4, 0.036, np.float32)
+PROF = {"cb": 0.0, "upd": 0.0, "phys": 0.0, "n_cb": 0, "n_upd": 0}
+_tpre = [0.0]
 def on_pre_step(dt, context):
+    _t = time.perf_counter()
+    try: _step(dt)
+    finally: PROF["cb"] += time.perf_counter() - _t; PROF["n_cb"] += 1; _tpre[0] = time.perf_counter()
+def on_post_step(dt, context):
+    PROF["phys"] += time.perf_counter() - _tpre[0]
+def _step(dt):
     if S["art"] is None:
         view = SimulationManager.get_physics_simulation_view()
         if view is None: return
@@ -119,6 +139,17 @@ def on_pre_step(dt, context):
     S["n"] += 1
 SimulationManager.setup_simulation(dt=1.0 / 200.0)
 cb = SimulationManager.register_callback(on_pre_step, event=SimulationEvent.PHYSICS_PRE_STEP)
+cb_post = SimulationManager.register_callback(on_post_step, event=SimulationEvent.PHYSICS_POST_STEP)
+# The GUI frame costs ~60 ms of Kit/render CPU time whatever the physics does, so at the default 1/60 s of sim per
+# frame the sim runs at ~0.25x real time. Advance more sim time per frame instead (physics stays at 200 Hz).
+from isaacsim.core.rendering_manager import RenderingManager
+carb.settings.get_settings().set("/persistent/simulation/minFrameRate", 4)   # else PhysX caps steps per frame at 1/15 s
+def set_frame_dt(dt, playing=True):
+    # while playing only the loop step changes: RenderingManager.set_dt also rewrites the stage's timeCodesPerSecond,
+    # which invalidates the physics simulation view mid-run
+    dt = float(np.clip(round(dt / 0.005) * 0.005, 1 / 60, 0.15))
+    (RenderingManager._loop_runner.set_manual_step_size if playing else RenderingManager.set_dt)(dt); return dt
+frame_dt = set_frame_dt(1 / 60 if a.headless else 0.1 if a.frame_dt == "auto" else float(a.frame_dt), playing=False)
 tl = omni.timeline.get_timeline_interface(); tl.play()
 
 # headless key script: [(key or None, seconds)], "R" = reset
@@ -127,7 +158,19 @@ if a.script:
     for item in a.script.split(","):
         k, sec = item.split(":"); plan.append((None if k == "-" else k.upper(), float(sec)))
 t_end, cur = 0.0, None
+w0, k0 = time.time(), 0
 while app.is_running():
+    if not a.script and S["art"] is not None and time.time() - w0 > 2.0:   # status every 2 s: is sim keeping up?
+        r = S["art"].get_root_transforms().numpy()[0]; v = S["art"].get_root_velocities().numpy()[0]
+        print("[teleop] sim %.1f s (%.2fx real time)  xy %.2f %.2f  speed %.2f m/s  cmd %s" % (S["k"] * 0.02,
+              (S["k"] - k0) * 0.02 / (time.time() - w0), r[0], r[1], np.linalg.norm(v[:2]), np.round(pol.cmd, 2).tolist()), flush=True)
+        print("[teleop]   frame %.1f ms (%d frames, %.0f ms sim each, %.1f physics steps/frame), controller %.2f ms/step, physics %.2f ms/step, device %s" % (
+              1e3 * PROF["upd"] / max(PROF["n_upd"], 1), PROF["n_upd"], 1e3 * frame_dt, PROF["n_cb"] / max(PROF["n_upd"], 1),
+              1e3 * PROF["cb"] / max(PROF["n_cb"], 1), 1e3 * PROF["phys"] / max(PROF["n_cb"], 1), S["idx"].device), flush=True)
+        if a.frame_dt == "auto" and PROF["n_upd"] and not a.headless:
+            frame_dt = set_frame_dt(PROF["upd"] / PROF["n_upd"])
+        for key in PROF: PROF[key] = 0
+        w0, k0 = time.time(), S["k"]
     if a.script:
         t = S["k"] * 0.02
         if t >= t_end:
@@ -137,7 +180,7 @@ while app.is_running():
             if cur == "R": reset_req[0] = True
             elif cur in KEYS: held.add(cur)
             print("[teleop] t=%.2f key %s for %.1f s" % (t, cur or "-", sec), flush=True)
-    app.update()
+    _t = time.perf_counter(); app.update(); PROF["upd"] += time.perf_counter() - _t; PROF["n_upd"] += 1
     if S["art"] is not None:
         r = S["art"].get_root_transforms().numpy()[0]; x, y, z, w = r[3:7]
         aim(r[:3], np.arctan2(2 * (w * z + x * y), 1 - 2 * (y * y + z * z)))
