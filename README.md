@@ -58,9 +58,10 @@ scoring, not for running the robot.
 ![Newton vs PhysX](spot_isaac6/validation/newton_vs_physx.png)
 
 **Cameras.** Spot standing just behind a chain at t = 1.5 s. The poses are the same as in `EESC-LabRoM/spot-sim`
-(`spot_config/cameras/rgbd_cameras.py`) and in the spot-teleop runs. The front pair has URDF-precision transforms and
-is mounted rotated, as on the real robot. Left/right/rear are level mounts (the real ones tilt down). For exact
-per-robot values, record `/tf_static` from the robot with the spot_ros2 driver running.
+(`spot_config/cameras/rgbd_cameras.py`) and in the spot-teleop runs. Only the front pair is tilted: each looks 21 deg
+down and 33 deg across toward the other side (a crossed stereo pair), with the image rotated about 13 deg. Left, right,
+rear and hand are level (0 deg); the hand camera's angles are relative to the wrist. For exact per-robot values, record
+`/tf_static` from the robot with the spot_ros2 driver running.
 
 ![Six cameras](spot_isaac6/validation/cameras/six_cameras_behind_chain.jpg)
 
