@@ -35,7 +35,8 @@ digital twin of a mooring chain.
 | `policies/spot_legcol60/` | ONNX, `policy.yaml`, the training config, and `PORT_CONTRACT.md` (every convention, with file:line sources) |
 | `stages/spot_floor.usda` | Open floor with 1 m stripes |
 | `stages/spot_warehouse.usda` | Spot in the teleop warehouse (`assets/clutter/warehouse.usd`), spawned where `spot_warehouse.py` spawns it: at (-2.5, 0), facing the table about 1 m ahead. The warehouse's props load from NVIDIA's public asset server |
-| `teleop.py` | Drive Spot with the keyboard in the GUI: W/S or Up/Down forward/back, A/D or Left/Right sideways, Q/E turn, R reset. Hold to move. `--headless --script "W:3,Q:2"` replays keys for tests |
+| `teleop.py` | Opens a stage in the GUI and drives Spot: keys in the Isaac window, or commands from `drive.py`. It releases Kit's own Q/W/E/R/S/Up shortcuts while it runs, advances enough sim time per frame to keep real time, and follows Spot with a three-quarter camera (`--cam-side/-dist/-height/-lead`). `--headless --script "W:3,Q:2"` replays keys for tests |
+| `drive.py` | The controller, in any terminal (plain python3, no Isaac): hold W/S A/D Q/E or the arrows, space stops, R resets, X quits. It sends the command to `teleop.py` over UDP 9870 and prints Spot's position and speed. A terminal never sees key releases, so a key counts as held until its repeats stop for 0.6 s - which also absorbs the press/release flicker a remote desktop sends |
 | `validation/` | The Newton reference trace, the PhysX open-floor runs (including A/B checks), `plot.py` and `ab_runs.sh` |
 
 Details that matter when porting, all checked by A/B runs:
@@ -59,6 +60,7 @@ Drive it in the warehouse (the Isaac window opens on your display; click it, the
 ```bash
 DISPLAY=:1 XAUTHORITY=$XAUTHORITY docker compose -f docker/compose.yaml up -d
 docker compose -f docker/compose.yaml exec isaac /isaac-sim/python.sh spot_isaac6/teleop.py
+python3 spot_isaac6/drive.py            # in any other terminal: hold W/S A/D Q/E, space stop, R reset, X quit
 ```
 
 Keyboard test in the warehouse, scripted and headless, with no falls: turn 0.45 of 0.50 rad/s, forward 0.46 of 0.50 m/s,
