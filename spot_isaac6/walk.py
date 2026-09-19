@@ -26,6 +26,7 @@ a = ap.parse_args()
 # absolute: a relative stage path makes Kit resolve "../" asset references from the wrong directory (robot silently missing)
 a.stage = os.path.abspath(a.stage)
 if a.out is None: a.out = os.path.join(HERE, "runs", os.path.splitext(os.path.basename(a.stage))[0])
+a.out = os.path.abspath(a.out)                                     # Replicator puts relative paths under ~/omni.replicator_out
 from isaacsim import SimulationApp
 app = SimulationApp({"headless": True, "renderer": "RayTracedLighting", "width": 1280, "height": 720, "multi_gpu": False})
 import numpy as np, omni.usd, omni.timeline, warp as wp, sys
