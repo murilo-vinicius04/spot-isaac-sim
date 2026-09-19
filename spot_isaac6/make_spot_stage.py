@@ -43,7 +43,10 @@ UsdGeom.SetStageUpAxis(st, UsdGeom.Tokens.z); UsdGeom.SetStageMetersPerUnit(st, 
 if a.base:
     st.GetRootLayer().subLayerPaths.append(os.path.relpath(os.path.abspath(a.base), os.path.dirname(os.path.abspath(a.out))))
     st.SetDefaultPrim(st.GetPrimAtPath("/World"))
-    sc = st.OverridePrim("/World/physicsScene")
+    _b = Usd.Stage.Open(os.path.abspath(a.base))                  # use the base scene's own physics scene, wherever it lives
+    _scenes = [q.GetPath() for q in _b.Traverse() if q.IsA(UsdPhysics.Scene)]
+    sc = st.OverridePrim(_scenes[0] if _scenes else "/World/physicsScene")
+    if not _scenes: UsdPhysics.Scene.Define(st, "/World/physicsScene")
     x, y = a.spot_xy if a.spot_xy else (0.0, 0.0); yaw = 0.0 if a.yaw is None else a.yaw
 else:
     world = UsdGeom.Xform.Define(st, "/World"); st.SetDefaultPrim(world.GetPrim())

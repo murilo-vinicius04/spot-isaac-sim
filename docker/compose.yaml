@@ -12,11 +12,13 @@ services:
     ipc: host
     environment:
       - DISPLAY=${DISPLAY:-}              # GUI only; headless runs ignore it
+      - XAUTHORITY=/root/.Xauthority
       - QT_X11_NO_MITSHM=1
       - NVIDIA_DRIVER_CAPABILITIES=all
     volumes:
       - ..:/repo:rw
       - /tmp/.X11-unix:/tmp/.X11-unix:rw
+      - ${XAUTHORITY:-/dev/null}:/root/.Xauthority:ro   # your X cookie, so the GUI can open on your display
       # shader/kit caches, so the second start is fast (gitignored)
       - ./cache/kit:/isaac-sim/kit/cache:rw
       - ./cache/ov:/root/.cache/ov:rw

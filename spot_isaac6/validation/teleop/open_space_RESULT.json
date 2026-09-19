@@ -1,0 +1,18 @@
+{
+ "columns": [
+  "t",
+  "cmd_vx",
+  "cmd_vy",
+  "cmd_wz",
+  "vx",
+  "vy",
+  "wz",
+  "x",
+  "y",
+  "z",
+  "fell"
+ ],
+ "script": "Q:4,-:1,W:3,D:3,A:3,-:2",
+ "steps": 800,
+ "falls": 0
+}

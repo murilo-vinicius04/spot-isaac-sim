@@ -1,0 +1,1233 @@
+#usda 1.0
+(
+    defaultPrim = "World"
+    metersPerUnit = 1
+    subLayers = [
+        @../../assets/clutter/warehouse.usd@
+    ]
+    upAxis = "Z"
+)
+
+over "physicsScene"
+{
+    custom uint physxScene:timeStepsPerSecond = 200
+}
+
+over "World"
+{
+    def Xform "spot" (
+        prepend references = @../assets/spot_legcol/spot_with_arm/spot_with_arm.usda@
+    )
+    {
+        float xformOp:rotateZ = 0
+        double3 xformOp:translate = (-2.5, 0, 0.65)
+        uniform token[] xformOpOrder = ["xformOp:translate", "xformOp:rotateZ"]
+
+        over "Geometry"
+        {
+            over "body" (
+                prepend apiSchemas = ["PhysxArticulationAPI", "PhysicsFilteredPairsAPI"]
+            )
+            {
+                rel physics:filteredPairs = [
+                    </World/spot/Geometry/body/fl_hip>,
+                    </World/spot/Geometry/body/fl_hip/fl_uleg>,
+                    </World/spot/Geometry/body/fl_hip/fl_uleg/fl_lleg>,
+                    </World/spot/Geometry/body/fl_hip/fl_uleg/fl_lleg/fl_foot>,
+                    </World/spot/Geometry/body/fr_hip>,
+                    </World/spot/Geometry/body/fr_hip/fr_uleg>,
+                    </World/spot/Geometry/body/fr_hip/fr_uleg/fr_lleg>,
+                    </World/spot/Geometry/body/fr_hip/fr_uleg/fr_lleg/fr_foot>,
+                    </World/spot/Geometry/body/hl_hip>,
+                    </World/spot/Geometry/body/hl_hip/hl_uleg>,
+                    </World/spot/Geometry/body/hl_hip/hl_uleg/hl_lleg>,
+                    </World/spot/Geometry/body/hl_hip/hl_uleg/hl_lleg/hl_foot>,
+                    </World/spot/Geometry/body/hr_hip>,
+                    </World/spot/Geometry/body/hr_hip/hr_uleg>,
+                    </World/spot/Geometry/body/hr_hip/hr_uleg/hr_lleg>,
+                    </World/spot/Geometry/body/hr_hip/hr_uleg/hr_lleg/hr_foot>,
+                    </World/spot/Geometry/body/arm_link_sh0>,
+                    </World/spot/Geometry/body/arm_link_sh0/arm_link_sh1>,
+                    </World/spot/Geometry/body/arm_link_sh0/arm_link_sh1/arm_link_el0>,
+                    </World/spot/Geometry/body/arm_link_sh0/arm_link_sh1/arm_link_el0/arm_link_el1>,
+                    </World/spot/Geometry/body/arm_link_sh0/arm_link_sh1/arm_link_el0/arm_link_el1/arm_link_wr0>,
+                    </World/spot/Geometry/body/arm_link_sh0/arm_link_sh1/arm_link_el0/arm_link_el1/arm_link_wr0/arm_link_wr1>,
+                    </World/spot/Geometry/body/arm_link_sh0/arm_link_sh1/arm_link_el0/arm_link_el1/arm_link_wr0/arm_link_wr1/arm_link_fngr>,
+                    </World/spot/Geometry/body/arm_link_sh0/arm_link_sh1/arm_link_el0/arm_link_el1/arm_link_wr0/arm_link_wr1/arm_link_jaw>,
+                ]
+                custom bool physxArticulation:enabledSelfCollisions = 1
+                custom int physxArticulation:solverPositionIterationCount = 8
+                custom int physxArticulation:solverVelocityIterationCount = 1
+
+                over "fl_hip" (
+                    prepend apiSchemas = ["PhysicsFilteredPairsAPI"]
+                )
+                {
+                    rel physics:filteredPairs = [
+                        </World/spot/Geometry/body>,
+                        </World/spot/Geometry/body/fl_hip/fl_uleg>,
+                        </World/spot/Geometry/body/fl_hip/fl_uleg/fl_lleg>,
+                        </World/spot/Geometry/body/fl_hip/fl_uleg/fl_lleg/fl_foot>,
+                        </World/spot/Geometry/body/arm_link_sh0>,
+                        </World/spot/Geometry/body/arm_link_sh0/arm_link_sh1>,
+                        </World/spot/Geometry/body/arm_link_sh0/arm_link_sh1/arm_link_el0>,
+                        </World/spot/Geometry/body/arm_link_sh0/arm_link_sh1/arm_link_el0/arm_link_el1>,
+                        </World/spot/Geometry/body/arm_link_sh0/arm_link_sh1/arm_link_el0/arm_link_el1/arm_link_wr0>,
+                        </World/spot/Geometry/body/arm_link_sh0/arm_link_sh1/arm_link_el0/arm_link_el1/arm_link_wr0/arm_link_wr1>,
+                        </World/spot/Geometry/body/arm_link_sh0/arm_link_sh1/arm_link_el0/arm_link_el1/arm_link_wr0/arm_link_wr1/arm_link_fngr>,
+                        </World/spot/Geometry/body/arm_link_sh0/arm_link_sh1/arm_link_el0/arm_link_el1/arm_link_wr0/arm_link_wr1/arm_link_jaw>,
+                    ]
+
+                    over "fl_uleg" (
+                        prepend apiSchemas = ["PhysicsFilteredPairsAPI"]
+                    )
+                    {
+                        rel physics:filteredPairs = [
+                            </World/spot/Geometry/body>,
+                            </World/spot/Geometry/body/fl_hip>,
+                            </World/spot/Geometry/body/fl_hip/fl_uleg/fl_lleg>,
+                            </World/spot/Geometry/body/fl_hip/fl_uleg/fl_lleg/fl_foot>,
+                            </World/spot/Geometry/body/arm_link_sh0>,
+                            </World/spot/Geometry/body/arm_link_sh0/arm_link_sh1>,
+                            </World/spot/Geometry/body/arm_link_sh0/arm_link_sh1/arm_link_el0>,
+                            </World/spot/Geometry/body/arm_link_sh0/arm_link_sh1/arm_link_el0/arm_link_el1>,
+                            </World/spot/Geometry/body/arm_link_sh0/arm_link_sh1/arm_link_el0/arm_link_el1/arm_link_wr0>,
+                            </World/spot/Geometry/body/arm_link_sh0/arm_link_sh1/arm_link_el0/arm_link_el1/arm_link_wr0/arm_link_wr1>,
+                            </World/spot/Geometry/body/arm_link_sh0/arm_link_sh1/arm_link_el0/arm_link_el1/arm_link_wr0/arm_link_wr1/arm_link_fngr>,
+                            </World/spot/Geometry/body/arm_link_sh0/arm_link_sh1/arm_link_el0/arm_link_el1/arm_link_wr0/arm_link_wr1/arm_link_jaw>,
+                        ]
+
+                        over "fl_lleg" (
+                            prepend apiSchemas = ["PhysicsFilteredPairsAPI"]
+                        )
+                        {
+                            rel physics:filteredPairs = [
+                                </World/spot/Geometry/body>,
+                                </World/spot/Geometry/body/fl_hip>,
+                                </World/spot/Geometry/body/fl_hip/fl_uleg>,
+                                </World/spot/Geometry/body/fl_hip/fl_uleg/fl_lleg/fl_foot>,
+                                </World/spot/Geometry/body/arm_link_sh0>,
+                                </World/spot/Geometry/body/arm_link_sh0/arm_link_sh1>,
+                                </World/spot/Geometry/body/arm_link_sh0/arm_link_sh1/arm_link_el0>,
+                                </World/spot/Geometry/body/arm_link_sh0/arm_link_sh1/arm_link_el0/arm_link_el1>,
+                                </World/spot/Geometry/body/arm_link_sh0/arm_link_sh1/arm_link_el0/arm_link_el1/arm_link_wr0>,
+                                </World/spot/Geometry/body/arm_link_sh0/arm_link_sh1/arm_link_el0/arm_link_el1/arm_link_wr0/arm_link_wr1>,
+                                </World/spot/Geometry/body/arm_link_sh0/arm_link_sh1/arm_link_el0/arm_link_el1/arm_link_wr0/arm_link_wr1/arm_link_fngr>,
+                                </World/spot/Geometry/body/arm_link_sh0/arm_link_sh1/arm_link_el0/arm_link_el1/arm_link_wr0/arm_link_wr1/arm_link_jaw>,
+                            ]
+
+                            over "fl_foot" (
+                                prepend apiSchemas = ["PhysicsFilteredPairsAPI"]
+                            )
+                            {
+                                rel physics:filteredPairs = [
+                                    </World/spot/Geometry/body>,
+                                    </World/spot/Geometry/body/fl_hip>,
+                                    </World/spot/Geometry/body/fl_hip/fl_uleg>,
+                                    </World/spot/Geometry/body/fl_hip/fl_uleg/fl_lleg>,
+                                    </World/spot/Geometry/body/arm_link_sh0>,
+                                    </World/spot/Geometry/body/arm_link_sh0/arm_link_sh1>,
+                                    </World/spot/Geometry/body/arm_link_sh0/arm_link_sh1/arm_link_el0>,
+                                    </World/spot/Geometry/body/arm_link_sh0/arm_link_sh1/arm_link_el0/arm_link_el1>,
+                                    </World/spot/Geometry/body/arm_link_sh0/arm_link_sh1/arm_link_el0/arm_link_el1/arm_link_wr0>,
+                                    </World/spot/Geometry/body/arm_link_sh0/arm_link_sh1/arm_link_el0/arm_link_el1/arm_link_wr0/arm_link_wr1>,
+                                    </World/spot/Geometry/body/arm_link_sh0/arm_link_sh1/arm_link_el0/arm_link_el1/arm_link_wr0/arm_link_wr1/arm_link_fngr>,
+                                    </World/spot/Geometry/body/arm_link_sh0/arm_link_sh1/arm_link_el0/arm_link_el1/arm_link_wr0/arm_link_wr1/arm_link_jaw>,
+                                ]
+
+                                over "sphere" (
+                                    prepend apiSchemas = ["MaterialBindingAPI"]
+                                )
+                                {
+                                    custom rel material:binding:physics = </World/looks/spot_phys>
+                                }
+                            }
+
+                            over "lower_leg_collision" (
+                                prepend apiSchemas = ["MaterialBindingAPI"]
+                            )
+                            {
+                                custom rel material:binding:physics = </World/looks/spot_phys>
+                            }
+                        }
+
+                        over "upper_leg_collision" (
+                            prepend apiSchemas = ["MaterialBindingAPI"]
+                        )
+                        {
+                            custom rel material:binding:physics = </World/looks/spot_phys>
+                        }
+                    }
+                }
+
+                over "fr_hip" (
+                    prepend apiSchemas = ["PhysicsFilteredPairsAPI"]
+                )
+                {
+                    rel physics:filteredPairs = [
+                        </World/spot/Geometry/body>,
+                        </World/spot/Geometry/body/fr_hip/fr_uleg>,
+                        </World/spot/Geometry/body/fr_hip/fr_uleg/fr_lleg>,
+                        </World/spot/Geometry/body/fr_hip/fr_uleg/fr_lleg/fr_foot>,
+                        </World/spot/Geometry/body/arm_link_sh0>,
+                        </World/spot/Geometry/body/arm_link_sh0/arm_link_sh1>,
+                        </World/spot/Geometry/body/arm_link_sh0/arm_link_sh1/arm_link_el0>,
+                        </World/spot/Geometry/body/arm_link_sh0/arm_link_sh1/arm_link_el0/arm_link_el1>,
+                        </World/spot/Geometry/body/arm_link_sh0/arm_link_sh1/arm_link_el0/arm_link_el1/arm_link_wr0>,
+                        </World/spot/Geometry/body/arm_link_sh0/arm_link_sh1/arm_link_el0/arm_link_el1/arm_link_wr0/arm_link_wr1>,
+                        </World/spot/Geometry/body/arm_link_sh0/arm_link_sh1/arm_link_el0/arm_link_el1/arm_link_wr0/arm_link_wr1/arm_link_fngr>,
+                        </World/spot/Geometry/body/arm_link_sh0/arm_link_sh1/arm_link_el0/arm_link_el1/arm_link_wr0/arm_link_wr1/arm_link_jaw>,
+                    ]
+
+                    over "fr_uleg" (
+                        prepend apiSchemas = ["PhysicsFilteredPairsAPI"]
+                    )
+                    {
+                        rel physics:filteredPairs = [
+                            </World/spot/Geometry/body>,
+                            </World/spot/Geometry/body/fr_hip>,
+                            </World/spot/Geometry/body/fr_hip/fr_uleg/fr_lleg>,
+                            </World/spot/Geometry/body/fr_hip/fr_uleg/fr_lleg/fr_foot>,
+                            </World/spot/Geometry/body/arm_link_sh0>,
+                            </World/spot/Geometry/body/arm_link_sh0/arm_link_sh1>,
+                            </World/spot/Geometry/body/arm_link_sh0/arm_link_sh1/arm_link_el0>,
+                            </World/spot/Geometry/body/arm_link_sh0/arm_link_sh1/arm_link_el0/arm_link_el1>,
+                            </World/spot/Geometry/body/arm_link_sh0/arm_link_sh1/arm_link_el0/arm_link_el1/arm_link_wr0>,
+                            </World/spot/Geometry/body/arm_link_sh0/arm_link_sh1/arm_link_el0/arm_link_el1/arm_link_wr0/arm_link_wr1>,
+                            </World/spot/Geometry/body/arm_link_sh0/arm_link_sh1/arm_link_el0/arm_link_el1/arm_link_wr0/arm_link_wr1/arm_link_fngr>,
+                            </World/spot/Geometry/body/arm_link_sh0/arm_link_sh1/arm_link_el0/arm_link_el1/arm_link_wr0/arm_link_wr1/arm_link_jaw>,
+                        ]
+
+                        over "fr_lleg" (
+                            prepend apiSchemas = ["PhysicsFilteredPairsAPI"]
+                        )
+                        {
+                            rel physics:filteredPairs = [
+                                </World/spot/Geometry/body>,
+                                </World/spot/Geometry/body/fr_hip>,
+                                </World/spot/Geometry/body/fr_hip/fr_uleg>,
+                                </World/spot/Geometry/body/fr_hip/fr_uleg/fr_lleg/fr_foot>,
+                                </World/spot/Geometry/body/arm_link_sh0>,
+                                </World/spot/Geometry/body/arm_link_sh0/arm_link_sh1>,
+                                </World/spot/Geometry/body/arm_link_sh0/arm_link_sh1/arm_link_el0>,
+                                </World/spot/Geometry/body/arm_link_sh0/arm_link_sh1/arm_link_el0/arm_link_el1>,
+                                </World/spot/Geometry/body/arm_link_sh0/arm_link_sh1/arm_link_el0/arm_link_el1/arm_link_wr0>,
+                                </World/spot/Geometry/body/arm_link_sh0/arm_link_sh1/arm_link_el0/arm_link_el1/arm_link_wr0/arm_link_wr1>,
+                                </World/spot/Geometry/body/arm_link_sh0/arm_link_sh1/arm_link_el0/arm_link_el1/arm_link_wr0/arm_link_wr1/arm_link_fngr>,
+                                </World/spot/Geometry/body/arm_link_sh0/arm_link_sh1/arm_link_el0/arm_link_el1/arm_link_wr0/arm_link_wr1/arm_link_jaw>,
+                            ]
+
+                            over "fr_foot" (
+                                prepend apiSchemas = ["PhysicsFilteredPairsAPI"]
+                            )
+                            {
+                                rel physics:filteredPairs = [
+                                    </World/spot/Geometry/body>,
+                                    </World/spot/Geometry/body/fr_hip>,
+                                    </World/spot/Geometry/body/fr_hip/fr_uleg>,
+                                    </World/spot/Geometry/body/fr_hip/fr_uleg/fr_lleg>,
+                                    </World/spot/Geometry/body/arm_link_sh0>,
+                                    </World/spot/Geometry/body/arm_link_sh0/arm_link_sh1>,
+                                    </World/spot/Geometry/body/arm_link_sh0/arm_link_sh1/arm_link_el0>,
+                                    </World/spot/Geometry/body/arm_link_sh0/arm_link_sh1/arm_link_el0/arm_link_el1>,
+                                    </World/spot/Geometry/body/arm_link_sh0/arm_link_sh1/arm_link_el0/arm_link_el1/arm_link_wr0>,
+                                    </World/spot/Geometry/body/arm_link_sh0/arm_link_sh1/arm_link_el0/arm_link_el1/arm_link_wr0/arm_link_wr1>,
+                                    </World/spot/Geometry/body/arm_link_sh0/arm_link_sh1/arm_link_el0/arm_link_el1/arm_link_wr0/arm_link_wr1/arm_link_fngr>,
+                                    </World/spot/Geometry/body/arm_link_sh0/arm_link_sh1/arm_link_el0/arm_link_el1/arm_link_wr0/arm_link_wr1/arm_link_jaw>,
+                                ]
+
+                                over "sphere" (
+                                    prepend apiSchemas = ["MaterialBindingAPI"]
+                                )
+                                {
+                                    custom rel material:binding:physics = </World/looks/spot_phys>
+                                }
+                            }
+
+                            over "lower_leg_collision" (
+                                prepend apiSchemas = ["MaterialBindingAPI"]
+                            )
+                            {
+                                custom rel material:binding:physics = </World/looks/spot_phys>
+                            }
+                        }
+
+                        over "upper_leg_collision" (
+                            prepend apiSchemas = ["MaterialBindingAPI"]
+                        )
+                        {
+                            custom rel material:binding:physics = </World/looks/spot_phys>
+                        }
+                    }
+                }
+
+                over "hl_hip" (
+                    prepend apiSchemas = ["PhysicsFilteredPairsAPI"]
+                )
+                {
+                    rel physics:filteredPairs = [
+                        </World/spot/Geometry/body>,
+                        </World/spot/Geometry/body/hl_hip/hl_uleg>,
+                        </World/spot/Geometry/body/hl_hip/hl_uleg/hl_lleg>,
+                        </World/spot/Geometry/body/hl_hip/hl_uleg/hl_lleg/hl_foot>,
+                        </World/spot/Geometry/body/arm_link_sh0>,
+                        </World/spot/Geometry/body/arm_link_sh0/arm_link_sh1>,
+                        </World/spot/Geometry/body/arm_link_sh0/arm_link_sh1/arm_link_el0>,
+                        </World/spot/Geometry/body/arm_link_sh0/arm_link_sh1/arm_link_el0/arm_link_el1>,
+                        </World/spot/Geometry/body/arm_link_sh0/arm_link_sh1/arm_link_el0/arm_link_el1/arm_link_wr0>,
+                        </World/spot/Geometry/body/arm_link_sh0/arm_link_sh1/arm_link_el0/arm_link_el1/arm_link_wr0/arm_link_wr1>,
+                        </World/spot/Geometry/body/arm_link_sh0/arm_link_sh1/arm_link_el0/arm_link_el1/arm_link_wr0/arm_link_wr1/arm_link_fngr>,
+                        </World/spot/Geometry/body/arm_link_sh0/arm_link_sh1/arm_link_el0/arm_link_el1/arm_link_wr0/arm_link_wr1/arm_link_jaw>,
+                    ]
+
+                    over "hl_uleg" (
+                        prepend apiSchemas = ["PhysicsFilteredPairsAPI"]
+                    )
+                    {
+                        rel physics:filteredPairs = [
+                            </World/spot/Geometry/body>,
+                            </World/spot/Geometry/body/hl_hip>,
+                            </World/spot/Geometry/body/hl_hip/hl_uleg/hl_lleg>,
+                            </World/spot/Geometry/body/hl_hip/hl_uleg/hl_lleg/hl_foot>,
+                            </World/spot/Geometry/body/arm_link_sh0>,
+                            </World/spot/Geometry/body/arm_link_sh0/arm_link_sh1>,
+                            </World/spot/Geometry/body/arm_link_sh0/arm_link_sh1/arm_link_el0>,
+                            </World/spot/Geometry/body/arm_link_sh0/arm_link_sh1/arm_link_el0/arm_link_el1>,
+                            </World/spot/Geometry/body/arm_link_sh0/arm_link_sh1/arm_link_el0/arm_link_el1/arm_link_wr0>,
+                            </World/spot/Geometry/body/arm_link_sh0/arm_link_sh1/arm_link_el0/arm_link_el1/arm_link_wr0/arm_link_wr1>,
+                            </World/spot/Geometry/body/arm_link_sh0/arm_link_sh1/arm_link_el0/arm_link_el1/arm_link_wr0/arm_link_wr1/arm_link_fngr>,
+                            </World/spot/Geometry/body/arm_link_sh0/arm_link_sh1/arm_link_el0/arm_link_el1/arm_link_wr0/arm_link_wr1/arm_link_jaw>,
+                        ]
+
+                        over "hl_lleg" (
+                            prepend apiSchemas = ["PhysicsFilteredPairsAPI"]
+                        )
+                        {
+                            rel physics:filteredPairs = [
+                                </World/spot/Geometry/body>,
+                                </World/spot/Geometry/body/hl_hip>,
+                                </World/spot/Geometry/body/hl_hip/hl_uleg>,
+                                </World/spot/Geometry/body/hl_hip/hl_uleg/hl_lleg/hl_foot>,
+                                </World/spot/Geometry/body/arm_link_sh0>,
+                                </World/spot/Geometry/body/arm_link_sh0/arm_link_sh1>,
+                                </World/spot/Geometry/body/arm_link_sh0/arm_link_sh1/arm_link_el0>,
+                                </World/spot/Geometry/body/arm_link_sh0/arm_link_sh1/arm_link_el0/arm_link_el1>,
+                                </World/spot/Geometry/body/arm_link_sh0/arm_link_sh1/arm_link_el0/arm_link_el1/arm_link_wr0>,
+                                </World/spot/Geometry/body/arm_link_sh0/arm_link_sh1/arm_link_el0/arm_link_el1/arm_link_wr0/arm_link_wr1>,
+                                </World/spot/Geometry/body/arm_link_sh0/arm_link_sh1/arm_link_el0/arm_link_el1/arm_link_wr0/arm_link_wr1/arm_link_fngr>,
+                                </World/spot/Geometry/body/arm_link_sh0/arm_link_sh1/arm_link_el0/arm_link_el1/arm_link_wr0/arm_link_wr1/arm_link_jaw>,
+                            ]
+
+                            over "hl_foot" (
+                                prepend apiSchemas = ["PhysicsFilteredPairsAPI"]
+                            )
+                            {
+                                rel physics:filteredPairs = [
+                                    </World/spot/Geometry/body>,
+                                    </World/spot/Geometry/body/hl_hip>,
+                                    </World/spot/Geometry/body/hl_hip/hl_uleg>,
+                                    </World/spot/Geometry/body/hl_hip/hl_uleg/hl_lleg>,
+                                    </World/spot/Geometry/body/arm_link_sh0>,
+                                    </World/spot/Geometry/body/arm_link_sh0/arm_link_sh1>,
+                                    </World/spot/Geometry/body/arm_link_sh0/arm_link_sh1/arm_link_el0>,
+                                    </World/spot/Geometry/body/arm_link_sh0/arm_link_sh1/arm_link_el0/arm_link_el1>,
+                                    </World/spot/Geometry/body/arm_link_sh0/arm_link_sh1/arm_link_el0/arm_link_el1/arm_link_wr0>,
+                                    </World/spot/Geometry/body/arm_link_sh0/arm_link_sh1/arm_link_el0/arm_link_el1/arm_link_wr0/arm_link_wr1>,
+                                    </World/spot/Geometry/body/arm_link_sh0/arm_link_sh1/arm_link_el0/arm_link_el1/arm_link_wr0/arm_link_wr1/arm_link_fngr>,
+                                    </World/spot/Geometry/body/arm_link_sh0/arm_link_sh1/arm_link_el0/arm_link_el1/arm_link_wr0/arm_link_wr1/arm_link_jaw>,
+                                ]
+
+                                over "sphere" (
+                                    prepend apiSchemas = ["MaterialBindingAPI"]
+                                )
+                                {
+                                    custom rel material:binding:physics = </World/looks/spot_phys>
+                                }
+                            }
+
+                            over "lower_leg_collision" (
+                                prepend apiSchemas = ["MaterialBindingAPI"]
+                            )
+                            {
+                                custom rel material:binding:physics = </World/looks/spot_phys>
+                            }
+                        }
+
+                        over "upper_leg_collision" (
+                            prepend apiSchemas = ["MaterialBindingAPI"]
+                        )
+                        {
+                            custom rel material:binding:physics = </World/looks/spot_phys>
+                        }
+                    }
+                }
+
+                over "hr_hip" (
+                    prepend apiSchemas = ["PhysicsFilteredPairsAPI"]
+                )
+                {
+                    rel physics:filteredPairs = [
+                        </World/spot/Geometry/body>,
+                        </World/spot/Geometry/body/hr_hip/hr_uleg>,
+                        </World/spot/Geometry/body/hr_hip/hr_uleg/hr_lleg>,
+                        </World/spot/Geometry/body/hr_hip/hr_uleg/hr_lleg/hr_foot>,
+                        </World/spot/Geometry/body/arm_link_sh0>,
+                        </World/spot/Geometry/body/arm_link_sh0/arm_link_sh1>,
+                        </World/spot/Geometry/body/arm_link_sh0/arm_link_sh1/arm_link_el0>,
+                        </World/spot/Geometry/body/arm_link_sh0/arm_link_sh1/arm_link_el0/arm_link_el1>,
+                        </World/spot/Geometry/body/arm_link_sh0/arm_link_sh1/arm_link_el0/arm_link_el1/arm_link_wr0>,
+                        </World/spot/Geometry/body/arm_link_sh0/arm_link_sh1/arm_link_el0/arm_link_el1/arm_link_wr0/arm_link_wr1>,
+                        </World/spot/Geometry/body/arm_link_sh0/arm_link_sh1/arm_link_el0/arm_link_el1/arm_link_wr0/arm_link_wr1/arm_link_fngr>,
+                        </World/spot/Geometry/body/arm_link_sh0/arm_link_sh1/arm_link_el0/arm_link_el1/arm_link_wr0/arm_link_wr1/arm_link_jaw>,
+                    ]
+
+                    over "hr_uleg" (
+                        prepend apiSchemas = ["PhysicsFilteredPairsAPI"]
+                    )
+                    {
+                        rel physics:filteredPairs = [
+                            </World/spot/Geometry/body>,
+                            </World/spot/Geometry/body/hr_hip>,
+                            </World/spot/Geometry/body/hr_hip/hr_uleg/hr_lleg>,
+                            </World/spot/Geometry/body/hr_hip/hr_uleg/hr_lleg/hr_foot>,
+                            </World/spot/Geometry/body/arm_link_sh0>,
+                            </World/spot/Geometry/body/arm_link_sh0/arm_link_sh1>,
+                            </World/spot/Geometry/body/arm_link_sh0/arm_link_sh1/arm_link_el0>,
+                            </World/spot/Geometry/body/arm_link_sh0/arm_link_sh1/arm_link_el0/arm_link_el1>,
+                            </World/spot/Geometry/body/arm_link_sh0/arm_link_sh1/arm_link_el0/arm_link_el1/arm_link_wr0>,
+                            </World/spot/Geometry/body/arm_link_sh0/arm_link_sh1/arm_link_el0/arm_link_el1/arm_link_wr0/arm_link_wr1>,
+                            </World/spot/Geometry/body/arm_link_sh0/arm_link_sh1/arm_link_el0/arm_link_el1/arm_link_wr0/arm_link_wr1/arm_link_fngr>,
+                            </World/spot/Geometry/body/arm_link_sh0/arm_link_sh1/arm_link_el0/arm_link_el1/arm_link_wr0/arm_link_wr1/arm_link_jaw>,
+                        ]
+
+                        over "hr_lleg" (
+                            prepend apiSchemas = ["PhysicsFilteredPairsAPI"]
+                        )
+                        {
+                            rel physics:filteredPairs = [
+                                </World/spot/Geometry/body>,
+                                </World/spot/Geometry/body/hr_hip>,
+                                </World/spot/Geometry/body/hr_hip/hr_uleg>,
+                                </World/spot/Geometry/body/hr_hip/hr_uleg/hr_lleg/hr_foot>,
+                                </World/spot/Geometry/body/arm_link_sh0>,
+                                </World/spot/Geometry/body/arm_link_sh0/arm_link_sh1>,
+                                </World/spot/Geometry/body/arm_link_sh0/arm_link_sh1/arm_link_el0>,
+                                </World/spot/Geometry/body/arm_link_sh0/arm_link_sh1/arm_link_el0/arm_link_el1>,
+                                </World/spot/Geometry/body/arm_link_sh0/arm_link_sh1/arm_link_el0/arm_link_el1/arm_link_wr0>,
+                                </World/spot/Geometry/body/arm_link_sh0/arm_link_sh1/arm_link_el0/arm_link_el1/arm_link_wr0/arm_link_wr1>,
+                                </World/spot/Geometry/body/arm_link_sh0/arm_link_sh1/arm_link_el0/arm_link_el1/arm_link_wr0/arm_link_wr1/arm_link_fngr>,
+                                </World/spot/Geometry/body/arm_link_sh0/arm_link_sh1/arm_link_el0/arm_link_el1/arm_link_wr0/arm_link_wr1/arm_link_jaw>,
+                            ]
+
+                            over "hr_foot" (
+                                prepend apiSchemas = ["PhysicsFilteredPairsAPI"]
+                            )
+                            {
+                                rel physics:filteredPairs = [
+                                    </World/spot/Geometry/body>,
+                                    </World/spot/Geometry/body/hr_hip>,
+                                    </World/spot/Geometry/body/hr_hip/hr_uleg>,
+                                    </World/spot/Geometry/body/hr_hip/hr_uleg/hr_lleg>,
+                                    </World/spot/Geometry/body/arm_link_sh0>,
+                                    </World/spot/Geometry/body/arm_link_sh0/arm_link_sh1>,
+                                    </World/spot/Geometry/body/arm_link_sh0/arm_link_sh1/arm_link_el0>,
+                                    </World/spot/Geometry/body/arm_link_sh0/arm_link_sh1/arm_link_el0/arm_link_el1>,
+                                    </World/spot/Geometry/body/arm_link_sh0/arm_link_sh1/arm_link_el0/arm_link_el1/arm_link_wr0>,
+                                    </World/spot/Geometry/body/arm_link_sh0/arm_link_sh1/arm_link_el0/arm_link_el1/arm_link_wr0/arm_link_wr1>,
+                                    </World/spot/Geometry/body/arm_link_sh0/arm_link_sh1/arm_link_el0/arm_link_el1/arm_link_wr0/arm_link_wr1/arm_link_fngr>,
+                                    </World/spot/Geometry/body/arm_link_sh0/arm_link_sh1/arm_link_el0/arm_link_el1/arm_link_wr0/arm_link_wr1/arm_link_jaw>,
+                                ]
+
+                                over "sphere" (
+                                    prepend apiSchemas = ["MaterialBindingAPI"]
+                                )
+                                {
+                                    custom rel material:binding:physics = </World/looks/spot_phys>
+                                }
+                            }
+
+                            over "lower_leg_collision" (
+                                prepend apiSchemas = ["MaterialBindingAPI"]
+                            )
+                            {
+                                custom rel material:binding:physics = </World/looks/spot_phys>
+                            }
+                        }
+
+                        over "upper_leg_collision" (
+                            prepend apiSchemas = ["MaterialBindingAPI"]
+                        )
+                        {
+                            custom rel material:binding:physics = </World/looks/spot_phys>
+                        }
+                    }
+                }
+
+                over "arm_link_sh0" (
+                    prepend apiSchemas = ["PhysicsFilteredPairsAPI"]
+                )
+                {
+                    rel physics:filteredPairs = [
+                        </World/spot/Geometry/body>,
+                        </World/spot/Geometry/body/fl_hip>,
+                        </World/spot/Geometry/body/fl_hip/fl_uleg>,
+                        </World/spot/Geometry/body/fl_hip/fl_uleg/fl_lleg>,
+                        </World/spot/Geometry/body/fl_hip/fl_uleg/fl_lleg/fl_foot>,
+                        </World/spot/Geometry/body/fr_hip>,
+                        </World/spot/Geometry/body/fr_hip/fr_uleg>,
+                        </World/spot/Geometry/body/fr_hip/fr_uleg/fr_lleg>,
+                        </World/spot/Geometry/body/fr_hip/fr_uleg/fr_lleg/fr_foot>,
+                        </World/spot/Geometry/body/hl_hip>,
+                        </World/spot/Geometry/body/hl_hip/hl_uleg>,
+                        </World/spot/Geometry/body/hl_hip/hl_uleg/hl_lleg>,
+                        </World/spot/Geometry/body/hl_hip/hl_uleg/hl_lleg/hl_foot>,
+                        </World/spot/Geometry/body/hr_hip>,
+                        </World/spot/Geometry/body/hr_hip/hr_uleg>,
+                        </World/spot/Geometry/body/hr_hip/hr_uleg/hr_lleg>,
+                        </World/spot/Geometry/body/hr_hip/hr_uleg/hr_lleg/hr_foot>,
+                        </World/spot/Geometry/body/arm_link_sh0/arm_link_sh1>,
+                        </World/spot/Geometry/body/arm_link_sh0/arm_link_sh1/arm_link_el0>,
+                        </World/spot/Geometry/body/arm_link_sh0/arm_link_sh1/arm_link_el0/arm_link_el1>,
+                        </World/spot/Geometry/body/arm_link_sh0/arm_link_sh1/arm_link_el0/arm_link_el1/arm_link_wr0>,
+                        </World/spot/Geometry/body/arm_link_sh0/arm_link_sh1/arm_link_el0/arm_link_el1/arm_link_wr0/arm_link_wr1>,
+                        </World/spot/Geometry/body/arm_link_sh0/arm_link_sh1/arm_link_el0/arm_link_el1/arm_link_wr0/arm_link_wr1/arm_link_fngr>,
+                        </World/spot/Geometry/body/arm_link_sh0/arm_link_sh1/arm_link_el0/arm_link_el1/arm_link_wr0/arm_link_wr1/arm_link_jaw>,
+                    ]
+
+                    over "arm_link_sh1" (
+                        prepend apiSchemas = ["PhysicsFilteredPairsAPI"]
+                    )
+                    {
+                        rel physics:filteredPairs = [
+                            </World/spot/Geometry/body>,
+                            </World/spot/Geometry/body/fl_hip>,
+                            </World/spot/Geometry/body/fl_hip/fl_uleg>,
+                            </World/spot/Geometry/body/fl_hip/fl_uleg/fl_lleg>,
+                            </World/spot/Geometry/body/fl_hip/fl_uleg/fl_lleg/fl_foot>,
+                            </World/spot/Geometry/body/fr_hip>,
+                            </World/spot/Geometry/body/fr_hip/fr_uleg>,
+                            </World/spot/Geometry/body/fr_hip/fr_uleg/fr_lleg>,
+                            </World/spot/Geometry/body/fr_hip/fr_uleg/fr_lleg/fr_foot>,
+                            </World/spot/Geometry/body/hl_hip>,
+                            </World/spot/Geometry/body/hl_hip/hl_uleg>,
+                            </World/spot/Geometry/body/hl_hip/hl_uleg/hl_lleg>,
+                            </World/spot/Geometry/body/hl_hip/hl_uleg/hl_lleg/hl_foot>,
+                            </World/spot/Geometry/body/hr_hip>,
+                            </World/spot/Geometry/body/hr_hip/hr_uleg>,
+                            </World/spot/Geometry/body/hr_hip/hr_uleg/hr_lleg>,
+                            </World/spot/Geometry/body/hr_hip/hr_uleg/hr_lleg/hr_foot>,
+                            </World/spot/Geometry/body/arm_link_sh0>,
+                            </World/spot/Geometry/body/arm_link_sh0/arm_link_sh1/arm_link_el0>,
+                            </World/spot/Geometry/body/arm_link_sh0/arm_link_sh1/arm_link_el0/arm_link_el1>,
+                            </World/spot/Geometry/body/arm_link_sh0/arm_link_sh1/arm_link_el0/arm_link_el1/arm_link_wr0>,
+                            </World/spot/Geometry/body/arm_link_sh0/arm_link_sh1/arm_link_el0/arm_link_el1/arm_link_wr0/arm_link_wr1>,
+                            </World/spot/Geometry/body/arm_link_sh0/arm_link_sh1/arm_link_el0/arm_link_el1/arm_link_wr0/arm_link_wr1/arm_link_fngr>,
+                            </World/spot/Geometry/body/arm_link_sh0/arm_link_sh1/arm_link_el0/arm_link_el1/arm_link_wr0/arm_link_wr1/arm_link_jaw>,
+                        ]
+
+                        over "arm_link_el0" (
+                            prepend apiSchemas = ["PhysicsFilteredPairsAPI"]
+                        )
+                        {
+                            rel physics:filteredPairs = [
+                                </World/spot/Geometry/body>,
+                                </World/spot/Geometry/body/fl_hip>,
+                                </World/spot/Geometry/body/fl_hip/fl_uleg>,
+                                </World/spot/Geometry/body/fl_hip/fl_uleg/fl_lleg>,
+                                </World/spot/Geometry/body/fl_hip/fl_uleg/fl_lleg/fl_foot>,
+                                </World/spot/Geometry/body/fr_hip>,
+                                </World/spot/Geometry/body/fr_hip/fr_uleg>,
+                                </World/spot/Geometry/body/fr_hip/fr_uleg/fr_lleg>,
+                                </World/spot/Geometry/body/fr_hip/fr_uleg/fr_lleg/fr_foot>,
+                                </World/spot/Geometry/body/hl_hip>,
+                                </World/spot/Geometry/body/hl_hip/hl_uleg>,
+                                </World/spot/Geometry/body/hl_hip/hl_uleg/hl_lleg>,
+                                </World/spot/Geometry/body/hl_hip/hl_uleg/hl_lleg/hl_foot>,
+                                </World/spot/Geometry/body/hr_hip>,
+                                </World/spot/Geometry/body/hr_hip/hr_uleg>,
+                                </World/spot/Geometry/body/hr_hip/hr_uleg/hr_lleg>,
+                                </World/spot/Geometry/body/hr_hip/hr_uleg/hr_lleg/hr_foot>,
+                                </World/spot/Geometry/body/arm_link_sh0>,
+                                </World/spot/Geometry/body/arm_link_sh0/arm_link_sh1>,
+                                </World/spot/Geometry/body/arm_link_sh0/arm_link_sh1/arm_link_el0/arm_link_el1>,
+                                </World/spot/Geometry/body/arm_link_sh0/arm_link_sh1/arm_link_el0/arm_link_el1/arm_link_wr0>,
+                                </World/spot/Geometry/body/arm_link_sh0/arm_link_sh1/arm_link_el0/arm_link_el1/arm_link_wr0/arm_link_wr1>,
+                                </World/spot/Geometry/body/arm_link_sh0/arm_link_sh1/arm_link_el0/arm_link_el1/arm_link_wr0/arm_link_wr1/arm_link_fngr>,
+                                </World/spot/Geometry/body/arm_link_sh0/arm_link_sh1/arm_link_el0/arm_link_el1/arm_link_wr0/arm_link_wr1/arm_link_jaw>,
+                            ]
+
+                            over "arm_link_el1" (
+                                prepend apiSchemas = ["PhysicsFilteredPairsAPI"]
+                            )
+                            {
+                                rel physics:filteredPairs = [
+                                    </World/spot/Geometry/body>,
+                                    </World/spot/Geometry/body/fl_hip>,
+                                    </World/spot/Geometry/body/fl_hip/fl_uleg>,
+                                    </World/spot/Geometry/body/fl_hip/fl_uleg/fl_lleg>,
+                                    </World/spot/Geometry/body/fl_hip/fl_uleg/fl_lleg/fl_foot>,
+                                    </World/spot/Geometry/body/fr_hip>,
+                                    </World/spot/Geometry/body/fr_hip/fr_uleg>,
+                                    </World/spot/Geometry/body/fr_hip/fr_uleg/fr_lleg>,
+                                    </World/spot/Geometry/body/fr_hip/fr_uleg/fr_lleg/fr_foot>,
+                                    </World/spot/Geometry/body/hl_hip>,
+                                    </World/spot/Geometry/body/hl_hip/hl_uleg>,
+                                    </World/spot/Geometry/body/hl_hip/hl_uleg/hl_lleg>,
+                                    </World/spot/Geometry/body/hl_hip/hl_uleg/hl_lleg/hl_foot>,
+                                    </World/spot/Geometry/body/hr_hip>,
+                                    </World/spot/Geometry/body/hr_hip/hr_uleg>,
+                                    </World/spot/Geometry/body/hr_hip/hr_uleg/hr_lleg>,
+                                    </World/spot/Geometry/body/hr_hip/hr_uleg/hr_lleg/hr_foot>,
+                                    </World/spot/Geometry/body/arm_link_sh0>,
+                                    </World/spot/Geometry/body/arm_link_sh0/arm_link_sh1>,
+                                    </World/spot/Geometry/body/arm_link_sh0/arm_link_sh1/arm_link_el0>,
+                                    </World/spot/Geometry/body/arm_link_sh0/arm_link_sh1/arm_link_el0/arm_link_el1/arm_link_wr0>,
+                                    </World/spot/Geometry/body/arm_link_sh0/arm_link_sh1/arm_link_el0/arm_link_el1/arm_link_wr0/arm_link_wr1>,
+                                    </World/spot/Geometry/body/arm_link_sh0/arm_link_sh1/arm_link_el0/arm_link_el1/arm_link_wr0/arm_link_wr1/arm_link_fngr>,
+                                    </World/spot/Geometry/body/arm_link_sh0/arm_link_sh1/arm_link_el0/arm_link_el1/arm_link_wr0/arm_link_wr1/arm_link_jaw>,
+                                ]
+
+                                over "arm_link_wr0" (
+                                    prepend apiSchemas = ["PhysicsFilteredPairsAPI"]
+                                )
+                                {
+                                    rel physics:filteredPairs = [
+                                        </World/spot/Geometry/body>,
+                                        </World/spot/Geometry/body/fl_hip>,
+                                        </World/spot/Geometry/body/fl_hip/fl_uleg>,
+                                        </World/spot/Geometry/body/fl_hip/fl_uleg/fl_lleg>,
+                                        </World/spot/Geometry/body/fl_hip/fl_uleg/fl_lleg/fl_foot>,
+                                        </World/spot/Geometry/body/fr_hip>,
+                                        </World/spot/Geometry/body/fr_hip/fr_uleg>,
+                                        </World/spot/Geometry/body/fr_hip/fr_uleg/fr_lleg>,
+                                        </World/spot/Geometry/body/fr_hip/fr_uleg/fr_lleg/fr_foot>,
+                                        </World/spot/Geometry/body/hl_hip>,
+                                        </World/spot/Geometry/body/hl_hip/hl_uleg>,
+                                        </World/spot/Geometry/body/hl_hip/hl_uleg/hl_lleg>,
+                                        </World/spot/Geometry/body/hl_hip/hl_uleg/hl_lleg/hl_foot>,
+                                        </World/spot/Geometry/body/hr_hip>,
+                                        </World/spot/Geometry/body/hr_hip/hr_uleg>,
+                                        </World/spot/Geometry/body/hr_hip/hr_uleg/hr_lleg>,
+                                        </World/spot/Geometry/body/hr_hip/hr_uleg/hr_lleg/hr_foot>,
+                                        </World/spot/Geometry/body/arm_link_sh0>,
+                                        </World/spot/Geometry/body/arm_link_sh0/arm_link_sh1>,
+                                        </World/spot/Geometry/body/arm_link_sh0/arm_link_sh1/arm_link_el0>,
+                                        </World/spot/Geometry/body/arm_link_sh0/arm_link_sh1/arm_link_el0/arm_link_el1>,
+                                        </World/spot/Geometry/body/arm_link_sh0/arm_link_sh1/arm_link_el0/arm_link_el1/arm_link_wr0/arm_link_wr1>,
+                                        </World/spot/Geometry/body/arm_link_sh0/arm_link_sh1/arm_link_el0/arm_link_el1/arm_link_wr0/arm_link_wr1/arm_link_fngr>,
+                                        </World/spot/Geometry/body/arm_link_sh0/arm_link_sh1/arm_link_el0/arm_link_el1/arm_link_wr0/arm_link_wr1/arm_link_jaw>,
+                                    ]
+
+                                    over "arm_link_wr1" (
+                                        prepend apiSchemas = ["PhysicsFilteredPairsAPI"]
+                                    )
+                                    {
+                                        rel physics:filteredPairs = [
+                                            </World/spot/Geometry/body>,
+                                            </World/spot/Geometry/body/fl_hip>,
+                                            </World/spot/Geometry/body/fl_hip/fl_uleg>,
+                                            </World/spot/Geometry/body/fl_hip/fl_uleg/fl_lleg>,
+                                            </World/spot/Geometry/body/fl_hip/fl_uleg/fl_lleg/fl_foot>,
+                                            </World/spot/Geometry/body/fr_hip>,
+                                            </World/spot/Geometry/body/fr_hip/fr_uleg>,
+                                            </World/spot/Geometry/body/fr_hip/fr_uleg/fr_lleg>,
+                                            </World/spot/Geometry/body/fr_hip/fr_uleg/fr_lleg/fr_foot>,
+                                            </World/spot/Geometry/body/hl_hip>,
+                                            </World/spot/Geometry/body/hl_hip/hl_uleg>,
+                                            </World/spot/Geometry/body/hl_hip/hl_uleg/hl_lleg>,
+                                            </World/spot/Geometry/body/hl_hip/hl_uleg/hl_lleg/hl_foot>,
+                                            </World/spot/Geometry/body/hr_hip>,
+                                            </World/spot/Geometry/body/hr_hip/hr_uleg>,
+                                            </World/spot/Geometry/body/hr_hip/hr_uleg/hr_lleg>,
+                                            </World/spot/Geometry/body/hr_hip/hr_uleg/hr_lleg/hr_foot>,
+                                            </World/spot/Geometry/body/arm_link_sh0>,
+                                            </World/spot/Geometry/body/arm_link_sh0/arm_link_sh1>,
+                                            </World/spot/Geometry/body/arm_link_sh0/arm_link_sh1/arm_link_el0>,
+                                            </World/spot/Geometry/body/arm_link_sh0/arm_link_sh1/arm_link_el0/arm_link_el1>,
+                                            </World/spot/Geometry/body/arm_link_sh0/arm_link_sh1/arm_link_el0/arm_link_el1/arm_link_wr0>,
+                                            </World/spot/Geometry/body/arm_link_sh0/arm_link_sh1/arm_link_el0/arm_link_el1/arm_link_wr0/arm_link_wr1/arm_link_fngr>,
+                                            </World/spot/Geometry/body/arm_link_sh0/arm_link_sh1/arm_link_el0/arm_link_el1/arm_link_wr0/arm_link_wr1/arm_link_jaw>,
+                                        ]
+
+                                        over "arm_link_fngr" (
+                                            prepend apiSchemas = ["PhysicsFilteredPairsAPI"]
+                                        )
+                                        {
+                                            rel physics:filteredPairs = [
+                                                </World/spot/Geometry/body>,
+                                                </World/spot/Geometry/body/fl_hip>,
+                                                </World/spot/Geometry/body/fl_hip/fl_uleg>,
+                                                </World/spot/Geometry/body/fl_hip/fl_uleg/fl_lleg>,
+                                                </World/spot/Geometry/body/fl_hip/fl_uleg/fl_lleg/fl_foot>,
+                                                </World/spot/Geometry/body/fr_hip>,
+                                                </World/spot/Geometry/body/fr_hip/fr_uleg>,
+                                                </World/spot/Geometry/body/fr_hip/fr_uleg/fr_lleg>,
+                                                </World/spot/Geometry/body/fr_hip/fr_uleg/fr_lleg/fr_foot>,
+                                                </World/spot/Geometry/body/hl_hip>,
+                                                </World/spot/Geometry/body/hl_hip/hl_uleg>,
+                                                </World/spot/Geometry/body/hl_hip/hl_uleg/hl_lleg>,
+                                                </World/spot/Geometry/body/hl_hip/hl_uleg/hl_lleg/hl_foot>,
+                                                </World/spot/Geometry/body/hr_hip>,
+                                                </World/spot/Geometry/body/hr_hip/hr_uleg>,
+                                                </World/spot/Geometry/body/hr_hip/hr_uleg/hr_lleg>,
+                                                </World/spot/Geometry/body/hr_hip/hr_uleg/hr_lleg/hr_foot>,
+                                                </World/spot/Geometry/body/arm_link_sh0>,
+                                                </World/spot/Geometry/body/arm_link_sh0/arm_link_sh1>,
+                                                </World/spot/Geometry/body/arm_link_sh0/arm_link_sh1/arm_link_el0>,
+                                                </World/spot/Geometry/body/arm_link_sh0/arm_link_sh1/arm_link_el0/arm_link_el1>,
+                                                </World/spot/Geometry/body/arm_link_sh0/arm_link_sh1/arm_link_el0/arm_link_el1/arm_link_wr0>,
+                                                </World/spot/Geometry/body/arm_link_sh0/arm_link_sh1/arm_link_el0/arm_link_el1/arm_link_wr0/arm_link_wr1>,
+                                                </World/spot/Geometry/body/arm_link_sh0/arm_link_sh1/arm_link_el0/arm_link_el1/arm_link_wr0/arm_link_wr1/arm_link_jaw>,
+                                            ]
+
+                                            over "left_finger" (
+                                                prepend apiSchemas = ["MaterialBindingAPI"]
+                                            )
+                                            {
+                                                custom rel material:binding:physics = </World/looks/spot_phys>
+                                            }
+
+                                            over "left_tooth" (
+                                                prepend apiSchemas = ["MaterialBindingAPI"]
+                                            )
+                                            {
+                                                custom rel material:binding:physics = </World/looks/spot_phys>
+                                            }
+
+                                            over "right_finger" (
+                                                prepend apiSchemas = ["MaterialBindingAPI"]
+                                            )
+                                            {
+                                                custom rel material:binding:physics = </World/looks/spot_phys>
+                                            }
+
+                                            over "right_tooth" (
+                                                prepend apiSchemas = ["MaterialBindingAPI"]
+                                            )
+                                            {
+                                                custom rel material:binding:physics = </World/looks/spot_phys>
+                                            }
+                                        }
+
+                                        over "arm_link_jaw" (
+                                            prepend apiSchemas = ["PhysicsFilteredPairsAPI"]
+                                        )
+                                        {
+                                            rel physics:filteredPairs = [
+                                                </World/spot/Geometry/body>,
+                                                </World/spot/Geometry/body/fl_hip>,
+                                                </World/spot/Geometry/body/fl_hip/fl_uleg>,
+                                                </World/spot/Geometry/body/fl_hip/fl_uleg/fl_lleg>,
+                                                </World/spot/Geometry/body/fl_hip/fl_uleg/fl_lleg/fl_foot>,
+                                                </World/spot/Geometry/body/fr_hip>,
+                                                </World/spot/Geometry/body/fr_hip/fr_uleg>,
+                                                </World/spot/Geometry/body/fr_hip/fr_uleg/fr_lleg>,
+                                                </World/spot/Geometry/body/fr_hip/fr_uleg/fr_lleg/fr_foot>,
+                                                </World/spot/Geometry/body/hl_hip>,
+                                                </World/spot/Geometry/body/hl_hip/hl_uleg>,
+                                                </World/spot/Geometry/body/hl_hip/hl_uleg/hl_lleg>,
+                                                </World/spot/Geometry/body/hl_hip/hl_uleg/hl_lleg/hl_foot>,
+                                                </World/spot/Geometry/body/hr_hip>,
+                                                </World/spot/Geometry/body/hr_hip/hr_uleg>,
+                                                </World/spot/Geometry/body/hr_hip/hr_uleg/hr_lleg>,
+                                                </World/spot/Geometry/body/hr_hip/hr_uleg/hr_lleg/hr_foot>,
+                                                </World/spot/Geometry/body/arm_link_sh0>,
+                                                </World/spot/Geometry/body/arm_link_sh0/arm_link_sh1>,
+                                                </World/spot/Geometry/body/arm_link_sh0/arm_link_sh1/arm_link_el0>,
+                                                </World/spot/Geometry/body/arm_link_sh0/arm_link_sh1/arm_link_el0/arm_link_el1>,
+                                                </World/spot/Geometry/body/arm_link_sh0/arm_link_sh1/arm_link_el0/arm_link_el1/arm_link_wr0>,
+                                                </World/spot/Geometry/body/arm_link_sh0/arm_link_sh1/arm_link_el0/arm_link_el1/arm_link_wr0/arm_link_wr1>,
+                                                </World/spot/Geometry/body/arm_link_sh0/arm_link_sh1/arm_link_el0/arm_link_el1/arm_link_wr0/arm_link_wr1/arm_link_fngr>,
+                                            ]
+
+                                            over "front_jaw" (
+                                                prepend apiSchemas = ["MaterialBindingAPI"]
+                                            )
+                                            {
+                                                custom rel material:binding:physics = </World/looks/spot_phys>
+                                            }
+
+                                            over "middle_jaw" (
+                                                prepend apiSchemas = ["MaterialBindingAPI"]
+                                            )
+                                            {
+                                                custom rel material:binding:physics = </World/looks/spot_phys>
+                                            }
+
+                                            over "jaw_tooth" (
+                                                prepend apiSchemas = ["MaterialBindingAPI"]
+                                            )
+                                            {
+                                                custom rel material:binding:physics = </World/looks/spot_phys>
+                                            }
+                                        }
+
+                                        over "arm_link_wr1_1" (
+                                            prepend apiSchemas = ["MaterialBindingAPI"]
+                                        )
+                                        {
+                                            custom rel material:binding:physics = </World/looks/spot_phys>
+                                        }
+
+                                        def Camera "cam_hand" (
+                                            customData = {
+                                                dictionary spot = {
+                                                    int2 resolution = (640, 480)
+                                                }
+                                            }
+                                        )
+                                        {
+                                            float2 clippingRange = (0.01, 100)
+                                            float focalLength = 18
+                                            float horizontalAperture = 20.955
+                                            float verticalAperture = 15.71625
+                                            matrix4d xformOp:transform = ( (0, -1, 0, 0), (0, 0, 1, 0), (-1, 0, 0, 0), (0.15, 0, 0.05, 1) )
+                                            uniform token[] xformOpOrder = ["xformOp:transform"]
+                                        }
+                                    }
+                                }
+
+                                over "arm_link_el1_main" (
+                                    prepend apiSchemas = ["MaterialBindingAPI"]
+                                )
+                                {
+                                    custom rel material:binding:physics = </World/looks/spot_phys>
+                                }
+                            }
+                        }
+
+                        over "arm_link_sh1_1" (
+                            prepend apiSchemas = ["MaterialBindingAPI"]
+                        )
+                        {
+                            custom rel material:binding:physics = </World/looks/spot_phys>
+                        }
+                    }
+                }
+
+                over "body_collision" (
+                    prepend apiSchemas = ["MaterialBindingAPI"]
+                )
+                {
+                    custom rel material:binding:physics = </World/looks/spot_phys>
+                }
+
+                over "box" (
+                    prepend apiSchemas = ["MaterialBindingAPI"]
+                )
+                {
+                    custom rel material:binding:physics = </World/looks/spot_phys>
+                }
+
+                over "box_1" (
+                    prepend apiSchemas = ["MaterialBindingAPI"]
+                )
+                {
+                    custom rel material:binding:physics = </World/looks/spot_phys>
+                }
+
+                def Camera "cam_frontleft" (
+                    customData = {
+                        dictionary spot = {
+                            int2 resolution = (640, 480)
+                        }
+                    }
+                )
+                {
+                    float2 clippingRange = (0.01, 100)
+                    float focalLength = 10.8
+                    float horizontalAperture = 20.955
+                    float verticalAperture = 15.71625
+                    matrix4d xformOp:transform = ( (-0.47244542788749433, -0.856786589473471, 0.20666895694956275, 0), (0.4140606732056879, -0.008764753210909108, 0.9102070852314897, 0), (-0.7780418218660581, 0.5155966632936736, 0.358902499612047, 0), (0.38939414858733923, 0.031124546214906616, -0.05145051813312267, 1) )
+                    uniform token[] xformOpOrder = ["xformOp:transform"]
+                }
+
+                def Camera "cam_frontright" (
+                    customData = {
+                        dictionary spot = {
+                            int2 resolution = (640, 480)
+                        }
+                    }
+                )
+                {
+                    float2 clippingRange = (0.01, 100)
+                    float focalLength = 10.8
+                    float horizontalAperture = 20.955
+                    float verticalAperture = 15.71625
+                    matrix4d xformOp:transform = ( (0.46833577339423815, -0.858293324272757, -0.2097478792933097, 0), (0.4187887783828362, 0.0066063452372506085, 0.908059643031898, 0), (-0.7779958627523881, -0.5131168733450756, 0.3625376005723285, 0), (0.38957461073750255, -0.03227095835452636, -0.05082582599691799, 1) )
+                    uniform token[] xformOpOrder = ["xformOp:transform"]
+                }
+
+                def Camera "cam_left" (
+                    customData = {
+                        dictionary spot = {
+                            int2 resolution = (640, 480)
+                        }
+                    }
+                )
+                {
+                    float2 clippingRange = (0.01, 100)
+                    float focalLength = 10.8
+                    float horizontalAperture = 20.955
+                    float verticalAperture = 15.71625
+                    matrix4d xformOp:transform = ( (0.9999996829318346, -0.0007963267107332633, 0, 0), (0, 0, 1, 0), (-0.0007963267107332633, -0.9999996829318346, 0, 0), (0.00003981633553666317, 0.14999998414659174, 0.02, 1) )
+                    uniform token[] xformOpOrder = ["xformOp:transform"]
+                }
+
+                def Camera "cam_right" (
+                    customData = {
+                        dictionary spot = {
+                            int2 resolution = (640, 480)
+                        }
+                    }
+                )
+                {
+                    float2 clippingRange = (0.01, 100)
+                    float focalLength = 10.8
+                    float horizontalAperture = 20.955
+                    float verticalAperture = 15.71625
+                    matrix4d xformOp:transform = ( (-0.9999996829318346, -0.0007963267107332633, 0, 0), (0, 0, 1, 0), (-0.0007963267107332633, 0.9999996829318346, 0, 0), (0.00003981633553666317, -0.14999998414659174, 0.02, 1) )
+                    uniform token[] xformOpOrder = ["xformOp:transform"]
+                }
+
+                def Camera "cam_rear" (
+                    customData = {
+                        dictionary spot = {
+                            int2 resolution = (640, 480)
+                        }
+                    }
+                )
+                {
+                    float2 clippingRange = (0.01, 100)
+                    float focalLength = 10.8
+                    float horizontalAperture = 20.955
+                    float verticalAperture = 15.71625
+                    matrix4d xformOp:transform = ( (0.0015926529164868282, 0.9999987317275395, 0, 0), (0, 0, 1, 0), (0.9999987317275395, -0.0015926529164868282, 0, 0), (-0.5099999239036523, 0.00009555917498920968, 0, 1) )
+                    uniform token[] xformOpOrder = ["xformOp:transform"]
+                }
+            }
+        }
+
+        over "Physics"
+        {
+            over "fl_hx" (
+                prepend apiSchemas = ["PhysicsDriveAPI:angular", "PhysicsJointStateAPI:angular", "PhysxJointAxisAPI:angular"]
+            )
+            {
+                float drive:angular:physics:damping = 0
+                float drive:angular:physics:maxForce = 1000000000
+                float drive:angular:physics:stiffness = 0
+                float drive:angular:physics:targetPosition = 6.8754935
+                uniform token drive:angular:physics:type = "force"
+                custom float physxJointAxis:angular:armature = 0
+                custom float physxJointAxis:angular:dynamicFrictionEffort = 0.008
+                custom float physxJointAxis:angular:staticFrictionEffort = 0.008
+                custom float state:angular:physics:position = 6.8754935
+                custom float state:angular:physics:velocity = 0
+            }
+
+            over "fl_hy" (
+                prepend apiSchemas = ["PhysicsDriveAPI:angular", "PhysicsJointStateAPI:angular", "PhysxJointAxisAPI:angular"]
+            )
+            {
+                float drive:angular:physics:damping = 0
+                float drive:angular:physics:maxForce = 1000000000
+                float drive:angular:physics:stiffness = 0
+                float drive:angular:physics:targetPosition = 28.64789
+                uniform token drive:angular:physics:type = "force"
+                custom float physxJointAxis:angular:armature = 0
+                custom float physxJointAxis:angular:dynamicFrictionEffort = 0.008
+                custom float physxJointAxis:angular:staticFrictionEffort = 0.008
+                custom float state:angular:physics:position = 28.64789
+                custom float state:angular:physics:velocity = 0
+            }
+
+            over "fl_kn" (
+                prepend apiSchemas = ["PhysicsDriveAPI:angular", "PhysicsJointStateAPI:angular", "PhysxJointAxisAPI:angular"]
+            )
+            {
+                float drive:angular:physics:damping = 0
+                float drive:angular:physics:maxForce = 1000000000
+                float drive:angular:physics:stiffness = 0
+                float drive:angular:physics:targetPosition = -57.29578
+                uniform token drive:angular:physics:type = "force"
+                custom float physxJointAxis:angular:armature = 0
+                custom float physxJointAxis:angular:dynamicFrictionEffort = 0.18
+                custom float physxJointAxis:angular:staticFrictionEffort = 0.18
+                custom float state:angular:physics:position = -57.29578
+                custom float state:angular:physics:velocity = 0
+            }
+
+            over "fr_hx" (
+                prepend apiSchemas = ["PhysicsDriveAPI:angular", "PhysicsJointStateAPI:angular", "PhysxJointAxisAPI:angular"]
+            )
+            {
+                float drive:angular:physics:damping = 0
+                float drive:angular:physics:maxForce = 1000000000
+                float drive:angular:physics:stiffness = 0
+                float drive:angular:physics:targetPosition = -6.8754935
+                uniform token drive:angular:physics:type = "force"
+                custom float physxJointAxis:angular:armature = 0
+                custom float physxJointAxis:angular:dynamicFrictionEffort = 0.008
+                custom float physxJointAxis:angular:staticFrictionEffort = 0.008
+                custom float state:angular:physics:position = -6.8754935
+                custom float state:angular:physics:velocity = 0
+            }
+
+            over "fr_hy" (
+                prepend apiSchemas = ["PhysicsDriveAPI:angular", "PhysicsJointStateAPI:angular", "PhysxJointAxisAPI:angular"]
+            )
+            {
+                float drive:angular:physics:damping = 0
+                float drive:angular:physics:maxForce = 1000000000
+                float drive:angular:physics:stiffness = 0
+                float drive:angular:physics:targetPosition = 28.64789
+                uniform token drive:angular:physics:type = "force"
+                custom float physxJointAxis:angular:armature = 0
+                custom float physxJointAxis:angular:dynamicFrictionEffort = 0.008
+                custom float physxJointAxis:angular:staticFrictionEffort = 0.008
+                custom float state:angular:physics:position = 28.64789
+                custom float state:angular:physics:velocity = 0
+            }
+
+            over "fr_kn" (
+                prepend apiSchemas = ["PhysicsDriveAPI:angular", "PhysicsJointStateAPI:angular", "PhysxJointAxisAPI:angular"]
+            )
+            {
+                float drive:angular:physics:damping = 0
+                float drive:angular:physics:maxForce = 1000000000
+                float drive:angular:physics:stiffness = 0
+                float drive:angular:physics:targetPosition = -57.29578
+                uniform token drive:angular:physics:type = "force"
+                custom float physxJointAxis:angular:armature = 0
+                custom float physxJointAxis:angular:dynamicFrictionEffort = 0.18
+                custom float physxJointAxis:angular:staticFrictionEffort = 0.18
+                custom float state:angular:physics:position = -57.29578
+                custom float state:angular:physics:velocity = 0
+            }
+
+            over "hl_hx" (
+                prepend apiSchemas = ["PhysicsDriveAPI:angular", "PhysicsJointStateAPI:angular", "PhysxJointAxisAPI:angular"]
+            )
+            {
+                float drive:angular:physics:damping = 0
+                float drive:angular:physics:maxForce = 1000000000
+                float drive:angular:physics:stiffness = 0
+                float drive:angular:physics:targetPosition = 6.8754935
+                uniform token drive:angular:physics:type = "force"
+                custom float physxJointAxis:angular:armature = 0
+                custom float physxJointAxis:angular:dynamicFrictionEffort = 0.008
+                custom float physxJointAxis:angular:staticFrictionEffort = 0.008
+                custom float state:angular:physics:position = 6.8754935
+                custom float state:angular:physics:velocity = 0
+            }
+
+            over "hl_hy" (
+                prepend apiSchemas = ["PhysicsDriveAPI:angular", "PhysicsJointStateAPI:angular", "PhysxJointAxisAPI:angular"]
+            )
+            {
+                float drive:angular:physics:damping = 0
+                float drive:angular:physics:maxForce = 1000000000
+                float drive:angular:physics:stiffness = 0
+                float drive:angular:physics:targetPosition = 28.64789
+                uniform token drive:angular:physics:type = "force"
+                custom float physxJointAxis:angular:armature = 0
+                custom float physxJointAxis:angular:dynamicFrictionEffort = 0.008
+                custom float physxJointAxis:angular:staticFrictionEffort = 0.008
+                custom float state:angular:physics:position = 28.64789
+                custom float state:angular:physics:velocity = 0
+            }
+
+            over "hl_kn" (
+                prepend apiSchemas = ["PhysicsDriveAPI:angular", "PhysicsJointStateAPI:angular", "PhysxJointAxisAPI:angular"]
+            )
+            {
+                float drive:angular:physics:damping = 0
+                float drive:angular:physics:maxForce = 1000000000
+                float drive:angular:physics:stiffness = 0
+                float drive:angular:physics:targetPosition = -57.29578
+                uniform token drive:angular:physics:type = "force"
+                custom float physxJointAxis:angular:armature = 0
+                custom float physxJointAxis:angular:dynamicFrictionEffort = 0.18
+                custom float physxJointAxis:angular:staticFrictionEffort = 0.18
+                custom float state:angular:physics:position = -57.29578
+                custom float state:angular:physics:velocity = 0
+            }
+
+            over "hr_hx" (
+                prepend apiSchemas = ["PhysicsDriveAPI:angular", "PhysicsJointStateAPI:angular", "PhysxJointAxisAPI:angular"]
+            )
+            {
+                float drive:angular:physics:damping = 0
+                float drive:angular:physics:maxForce = 1000000000
+                float drive:angular:physics:stiffness = 0
+                float drive:angular:physics:targetPosition = -6.8754935
+                uniform token drive:angular:physics:type = "force"
+                custom float physxJointAxis:angular:armature = 0
+                custom float physxJointAxis:angular:dynamicFrictionEffort = 0.008
+                custom float physxJointAxis:angular:staticFrictionEffort = 0.008
+                custom float state:angular:physics:position = -6.8754935
+                custom float state:angular:physics:velocity = 0
+            }
+
+            over "hr_hy" (
+                prepend apiSchemas = ["PhysicsDriveAPI:angular", "PhysicsJointStateAPI:angular", "PhysxJointAxisAPI:angular"]
+            )
+            {
+                float drive:angular:physics:damping = 0
+                float drive:angular:physics:maxForce = 1000000000
+                float drive:angular:physics:stiffness = 0
+                float drive:angular:physics:targetPosition = 28.64789
+                uniform token drive:angular:physics:type = "force"
+                custom float physxJointAxis:angular:armature = 0
+                custom float physxJointAxis:angular:dynamicFrictionEffort = 0.008
+                custom float physxJointAxis:angular:staticFrictionEffort = 0.008
+                custom float state:angular:physics:position = 28.64789
+                custom float state:angular:physics:velocity = 0
+            }
+
+            over "hr_kn" (
+                prepend apiSchemas = ["PhysicsDriveAPI:angular", "PhysicsJointStateAPI:angular", "PhysxJointAxisAPI:angular"]
+            )
+            {
+                float drive:angular:physics:damping = 0
+                float drive:angular:physics:maxForce = 1000000000
+                float drive:angular:physics:stiffness = 0
+                float drive:angular:physics:targetPosition = -57.29578
+                uniform token drive:angular:physics:type = "force"
+                custom float physxJointAxis:angular:armature = 0
+                custom float physxJointAxis:angular:dynamicFrictionEffort = 0.18
+                custom float physxJointAxis:angular:staticFrictionEffort = 0.18
+                custom float state:angular:physics:position = -57.29578
+                custom float state:angular:physics:velocity = 0
+            }
+
+            over "arm_sh0" (
+                prepend apiSchemas = ["PhysicsDriveAPI:angular", "PhysicsJointStateAPI:angular", "PhysxJointAxisAPI:angular"]
+            )
+            {
+                float drive:angular:physics:damping = 0
+                float drive:angular:physics:maxForce = 1000000000
+                float drive:angular:physics:stiffness = 0
+                float drive:angular:physics:targetPosition = 0
+                uniform token drive:angular:physics:type = "force"
+                custom float physxJointAxis:angular:armature = 0.01
+                custom float physxJointAxis:angular:dynamicFrictionEffort = 0
+                custom float physxJointAxis:angular:staticFrictionEffort = 0
+                custom float state:angular:physics:position = 0
+                custom float state:angular:physics:velocity = 0
+            }
+
+            over "arm_sh1" (
+                prepend apiSchemas = ["PhysicsDriveAPI:angular", "PhysicsJointStateAPI:angular", "PhysxJointAxisAPI:angular"]
+            )
+            {
+                float drive:angular:physics:damping = 0
+                float drive:angular:physics:maxForce = 1000000000
+                float drive:angular:physics:stiffness = 0
+                float drive:angular:physics:targetPosition = -179.99469
+                uniform token drive:angular:physics:type = "force"
+                custom float physxJointAxis:angular:armature = 0.01
+                custom float physxJointAxis:angular:dynamicFrictionEffort = 0
+                custom float physxJointAxis:angular:staticFrictionEffort = 0
+                custom float state:angular:physics:position = -179.99469
+                custom float state:angular:physics:velocity = 0
+            }
+
+            over "arm_el0" (
+                prepend apiSchemas = ["PhysicsDriveAPI:angular", "PhysicsJointStateAPI:angular", "PhysxJointAxisAPI:angular"]
+            )
+            {
+                float drive:angular:physics:damping = 0
+                float drive:angular:physics:maxForce = 1000000000
+                float drive:angular:physics:stiffness = 0
+                float drive:angular:physics:targetPosition = 179.99469
+                uniform token drive:angular:physics:type = "force"
+                custom float physxJointAxis:angular:armature = 0.01
+                custom float physxJointAxis:angular:dynamicFrictionEffort = 0
+                custom float physxJointAxis:angular:staticFrictionEffort = 0
+                custom float state:angular:physics:position = 179.99469
+                custom float state:angular:physics:velocity = 0
+            }
+
+            over "arm_el1" (
+                prepend apiSchemas = ["PhysicsDriveAPI:angular", "PhysicsJointStateAPI:angular", "PhysxJointAxisAPI:angular"]
+            )
+            {
+                float drive:angular:physics:damping = 0
+                float drive:angular:physics:maxForce = 1000000000
+                float drive:angular:physics:stiffness = 0
+                float drive:angular:physics:targetPosition = 89.69654
+                uniform token drive:angular:physics:type = "force"
+                custom float physxJointAxis:angular:armature = 0.01
+                custom float physxJointAxis:angular:dynamicFrictionEffort = 0
+                custom float physxJointAxis:angular:staticFrictionEffort = 0
+                custom float state:angular:physics:position = 89.69654
+                custom float state:angular:physics:velocity = 0
+            }
+
+            over "arm_wr0" (
+                prepend apiSchemas = ["PhysicsDriveAPI:angular", "PhysicsJointStateAPI:angular", "PhysxJointAxisAPI:angular"]
+            )
+            {
+                float drive:angular:physics:damping = 0
+                float drive:angular:physics:maxForce = 1000000000
+                float drive:angular:physics:stiffness = 0
+                float drive:angular:physics:targetPosition = 0
+                uniform token drive:angular:physics:type = "force"
+                custom float physxJointAxis:angular:armature = 0.01
+                custom float physxJointAxis:angular:dynamicFrictionEffort = 0
+                custom float physxJointAxis:angular:staticFrictionEffort = 0
+                custom float state:angular:physics:position = 0
+                custom float state:angular:physics:velocity = 0
+            }
+
+            over "arm_wr1" (
+                prepend apiSchemas = ["PhysicsDriveAPI:angular", "PhysicsJointStateAPI:angular", "PhysxJointAxisAPI:angular"]
+            )
+            {
+                float drive:angular:physics:damping = 0
+                float drive:angular:physics:maxForce = 1000000000
+                float drive:angular:physics:stiffness = 0
+                float drive:angular:physics:targetPosition = -89.69654
+                uniform token drive:angular:physics:type = "force"
+                custom float physxJointAxis:angular:armature = 0.01
+                custom float physxJointAxis:angular:dynamicFrictionEffort = 0
+                custom float physxJointAxis:angular:staticFrictionEffort = 0
+                custom float state:angular:physics:position = -89.69654
+                custom float state:angular:physics:velocity = 0
+            }
+
+            over "arm_f1x" (
+                prepend apiSchemas = ["PhysicsDriveAPI:angular", "PhysicsJointStateAPI:angular", "PhysxJointAxisAPI:angular"]
+            )
+            {
+                float drive:angular:physics:damping = 0
+                float drive:angular:physics:maxForce = 1000000000
+                float drive:angular:physics:stiffness = 0
+                float drive:angular:physics:targetPosition = 0
+                uniform token drive:angular:physics:type = "force"
+                custom float physxJointAxis:angular:armature = 0.001
+                custom float physxJointAxis:angular:dynamicFrictionEffort = 0
+                custom float physxJointAxis:angular:staticFrictionEffort = 0
+                custom float state:angular:physics:position = 0
+                custom float state:angular:physics:velocity = 0
+            }
+        }
+    }
+
+    def "looks"
+    {
+        def Material "spot_phys" (
+            prepend apiSchemas = ["PhysicsMaterialAPI", "PhysxMaterialAPI"]
+        )
+        {
+            float physics:dynamicFriction = 1
+            float physics:restitution = 0
+            float physics:staticFriction = 1
+            custom token physxMaterial:frictionCombineMode = "max"
+            custom token physxMaterial:restitutionCombineMode = "min"
+        }
+    }
+}
+
