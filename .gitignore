@@ -172,3 +172,7 @@ cython_debug/
 
 # PyPI configuration file
 .pypirc
+
+# spot_isaac6 run outputs and container caches
+spot_isaac6/runs/
+docker/cache/

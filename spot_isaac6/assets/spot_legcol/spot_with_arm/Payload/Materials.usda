@@ -1,0 +1,501 @@
+#usda 1.0
+(
+    "crawl-lab asset, fix_base=False, self_collision=False"
+    customLayerData = {
+        string creator = "URDF USD Converter v0.3.3"
+    }
+    defaultPrim = "spot_with_arm"
+    kilogramsPerUnit = 1
+    metersPerUnit = 1
+    upAxis = "Z"
+)
+
+def Xform "spot_with_arm"
+{
+    def Scope "Materials"
+    {
+        def Material "wrap" (
+            prepend references = @./MaterialsLibrary.usdc@</Materials/wrap>
+        )
+        {
+        }
+
+        def Material "BlackAbs" (
+            prepend references = @./MaterialsLibrary.usdc@</Materials/BlackAbs>
+        )
+        {
+        }
+
+        def Material "BlackAbs_1" (
+            prepend references = @./MaterialsLibrary.usdc@</Materials/BlackAbs_1>
+        )
+        {
+        }
+
+        def Material "BlackAbs_2" (
+            prepend references = @./MaterialsLibrary.usdc@</Materials/BlackAbs_2>
+        )
+        {
+        }
+
+        def Material "wrap_2" (
+            prepend references = @./MaterialsLibrary.usdc@</Materials/wrap_2>
+        )
+        {
+        }
+
+        def Material "BlackAbs_3" (
+            prepend references = @./MaterialsLibrary.usdc@</Materials/BlackAbs_3>
+        )
+        {
+        }
+
+        def Material "BlackAbs_4" (
+            prepend references = @./MaterialsLibrary.usdc@</Materials/BlackAbs_4>
+        )
+        {
+        }
+
+        def Material "BlackAbs_5" (
+            prepend references = @./MaterialsLibrary.usdc@</Materials/BlackAbs_5>
+        )
+        {
+        }
+
+        def Material "wrap_5" (
+            prepend references = @./MaterialsLibrary.usdc@</Materials/wrap_5>
+        )
+        {
+        }
+
+        def Material "BlackAbs_6" (
+            prepend references = @./MaterialsLibrary.usdc@</Materials/BlackAbs_6>
+        )
+        {
+        }
+
+        def Material "BlackAbs_7" (
+            prepend references = @./MaterialsLibrary.usdc@</Materials/BlackAbs_7>
+        )
+        {
+        }
+
+        def Material "BlackAbs_8" (
+            prepend references = @./MaterialsLibrary.usdc@</Materials/BlackAbs_8>
+        )
+        {
+        }
+
+        def Material "wrap_8" (
+            prepend references = @./MaterialsLibrary.usdc@</Materials/wrap_8>
+        )
+        {
+        }
+
+        def Material "BlackAbs_9" (
+            prepend references = @./MaterialsLibrary.usdc@</Materials/BlackAbs_9>
+        )
+        {
+        }
+
+        def Material "BlackAbs_10" (
+            prepend references = @./MaterialsLibrary.usdc@</Materials/BlackAbs_10>
+        )
+        {
+        }
+
+        def Material "BlackAbs_11" (
+            prepend references = @./MaterialsLibrary.usdc@</Materials/BlackAbs_11>
+        )
+        {
+        }
+
+        def Material "wrap_11" (
+            prepend references = @./MaterialsLibrary.usdc@</Materials/wrap_11>
+        )
+        {
+        }
+
+        def Material "BlackAbs_12" (
+            prepend references = @./MaterialsLibrary.usdc@</Materials/BlackAbs_12>
+        )
+        {
+        }
+
+        def Material "BlackAbs_13" (
+            prepend references = @./MaterialsLibrary.usdc@</Materials/BlackAbs_13>
+        )
+        {
+        }
+
+        def Material "BlackAbs_14" (
+            prepend references = @./MaterialsLibrary.usdc@</Materials/BlackAbs_14>
+        )
+        {
+        }
+
+        def Material "wrap_14" (
+            prepend references = @./MaterialsLibrary.usdc@</Materials/wrap_14>
+        )
+        {
+        }
+
+        def Material "BlackAbs_15" (
+            prepend references = @./MaterialsLibrary.usdc@</Materials/BlackAbs_15>
+        )
+        {
+        }
+
+        def Material "BlackAbs_16" (
+            prepend references = @./MaterialsLibrary.usdc@</Materials/BlackAbs_16>
+        )
+        {
+        }
+
+        def Material "wrap_16" (
+            prepend references = @./MaterialsLibrary.usdc@</Materials/wrap_16>
+        )
+        {
+        }
+
+        def Material "BlackAbs_17" (
+            prepend references = @./MaterialsLibrary.usdc@</Materials/BlackAbs_17>
+        )
+        {
+        }
+
+        def Material "wrap_17" (
+            prepend references = @./MaterialsLibrary.usdc@</Materials/wrap_17>
+        )
+        {
+        }
+
+        def Material "BlackAbs_18" (
+            prepend references = @./MaterialsLibrary.usdc@</Materials/BlackAbs_18>
+        )
+        {
+        }
+
+        def Material "wrap_18" (
+            prepend references = @./MaterialsLibrary.usdc@</Materials/wrap_18>
+        )
+        {
+        }
+
+        def Material "BlackAbs_19" (
+            prepend references = @./MaterialsLibrary.usdc@</Materials/BlackAbs_19>
+        )
+        {
+        }
+
+        def Material "wrap_19" (
+            prepend references = @./MaterialsLibrary.usdc@</Materials/wrap_19>
+        )
+        {
+        }
+    }
+
+    over "Geometry"
+    {
+        over "body"
+        {
+            over "body"
+            {
+                over "tn___2042137001A00_TOP_LEVEL_DEFEATURED__NOT_FOR_PRODUCTION_020_wrap_iV29Dd0" (
+                    prepend apiSchemas = ["MaterialBindingAPI"]
+                )
+                {
+                    rel material:binding = </spot_with_arm/Materials/wrap>
+                }
+
+                over "tn___2042137001A00_TOP_LEVEL_DEFEATURED__NOT_FOR_PRODUCTION_020_BlackAbs_cb29Dd0" (
+                    prepend apiSchemas = ["MaterialBindingAPI"]
+                )
+                {
+                    rel material:binding = </spot_with_arm/Materials/BlackAbs>
+                }
+            }
+
+            over "fl_hip"
+            {
+                over "front_left_hip" (
+                    prepend apiSchemas = ["MaterialBindingAPI"]
+                )
+                {
+                    rel material:binding = </spot_with_arm/Materials/BlackAbs_1>
+                }
+
+                over "fl_uleg"
+                {
+                    over "front_left_upper_leg"
+                    {
+                        over "tn___2042137001A00_TOP_LEVEL_DEFEATURED__NOT_FOR_PRODUCTION_015_BlackAbs_cb29Dd0" (
+                            prepend apiSchemas = ["MaterialBindingAPI"]
+                        )
+                        {
+                            rel material:binding = </spot_with_arm/Materials/BlackAbs_2>
+                        }
+
+                        over "tn___2042137001A00_TOP_LEVEL_DEFEATURED__NOT_FOR_PRODUCTION_015_wrap_iV29Dd0" (
+                            prepend apiSchemas = ["MaterialBindingAPI"]
+                        )
+                        {
+                            rel material:binding = </spot_with_arm/Materials/wrap_2>
+                        }
+                    }
+
+                    over "fl_lleg"
+                    {
+                        over "front_left_lower_leg" (
+                            prepend apiSchemas = ["MaterialBindingAPI"]
+                        )
+                        {
+                            rel material:binding = </spot_with_arm/Materials/BlackAbs_3>
+                        }
+                    }
+                }
+            }
+
+            over "fr_hip"
+            {
+                over "front_right_hip" (
+                    prepend apiSchemas = ["MaterialBindingAPI"]
+                )
+                {
+                    rel material:binding = </spot_with_arm/Materials/BlackAbs_4>
+                }
+
+                over "fr_uleg"
+                {
+                    over "front_right_upper_leg"
+                    {
+                        over "tn___2042137001A00_TOP_LEVEL_DEFEATURED__NOT_FOR_PRODUCTION_003_BlackAbs_cb29Dd0" (
+                            prepend apiSchemas = ["MaterialBindingAPI"]
+                        )
+                        {
+                            rel material:binding = </spot_with_arm/Materials/BlackAbs_5>
+                        }
+
+                        over "tn___2042137001A00_TOP_LEVEL_DEFEATURED__NOT_FOR_PRODUCTION_003_wrap_iV29Dd0" (
+                            prepend apiSchemas = ["MaterialBindingAPI"]
+                        )
+                        {
+                            rel material:binding = </spot_with_arm/Materials/wrap_5>
+                        }
+                    }
+
+                    over "fr_lleg"
+                    {
+                        over "front_right_lower_leg" (
+                            prepend apiSchemas = ["MaterialBindingAPI"]
+                        )
+                        {
+                            rel material:binding = </spot_with_arm/Materials/BlackAbs_6>
+                        }
+                    }
+                }
+            }
+
+            over "hl_hip"
+            {
+                over "rear_left_hip" (
+                    prepend apiSchemas = ["MaterialBindingAPI"]
+                )
+                {
+                    rel material:binding = </spot_with_arm/Materials/BlackAbs_7>
+                }
+
+                over "hl_uleg"
+                {
+                    over "rear_left_upper_leg"
+                    {
+                        over "tn___2042137001A00_TOP_LEVEL_DEFEATURED__NOT_FOR_PRODUCTION_012_BlackAbs_cb29Dd0" (
+                            prepend apiSchemas = ["MaterialBindingAPI"]
+                        )
+                        {
+                            rel material:binding = </spot_with_arm/Materials/BlackAbs_8>
+                        }
+
+                        over "tn___2042137001A00_TOP_LEVEL_DEFEATURED__NOT_FOR_PRODUCTION_012_wrap_iV29Dd0" (
+                            prepend apiSchemas = ["MaterialBindingAPI"]
+                        )
+                        {
+                            rel material:binding = </spot_with_arm/Materials/wrap_8>
+                        }
+                    }
+
+                    over "hl_lleg"
+                    {
+                        over "rear_left_lower_leg" (
+                            prepend apiSchemas = ["MaterialBindingAPI"]
+                        )
+                        {
+                            rel material:binding = </spot_with_arm/Materials/BlackAbs_9>
+                        }
+                    }
+                }
+            }
+
+            over "hr_hip"
+            {
+                over "rear_right_hip" (
+                    prepend apiSchemas = ["MaterialBindingAPI"]
+                )
+                {
+                    rel material:binding = </spot_with_arm/Materials/BlackAbs_10>
+                }
+
+                over "hr_uleg"
+                {
+                    over "rear_right_upper_leg"
+                    {
+                        over "tn___2042137001A00_TOP_LEVEL_DEFEATURED__NOT_FOR_PRODUCTION_004_BlackAbs_cb29Dd0" (
+                            prepend apiSchemas = ["MaterialBindingAPI"]
+                        )
+                        {
+                            rel material:binding = </spot_with_arm/Materials/BlackAbs_11>
+                        }
+
+                        over "tn___2042137001A00_TOP_LEVEL_DEFEATURED__NOT_FOR_PRODUCTION_004_wrap_iV29Dd0" (
+                            prepend apiSchemas = ["MaterialBindingAPI"]
+                        )
+                        {
+                            rel material:binding = </spot_with_arm/Materials/wrap_11>
+                        }
+                    }
+
+                    over "hr_lleg"
+                    {
+                        over "rear_right_lower_leg" (
+                            prepend apiSchemas = ["MaterialBindingAPI"]
+                        )
+                        {
+                            rel material:binding = </spot_with_arm/Materials/BlackAbs_12>
+                        }
+                    }
+                }
+            }
+
+            over "arm_link_sh0"
+            {
+                over "arm_link_sh0" (
+                    prepend apiSchemas = ["MaterialBindingAPI"]
+                )
+                {
+                    rel material:binding = </spot_with_arm/Materials/BlackAbs_13>
+                }
+
+                over "arm_link_sh1"
+                {
+                    over "arm_link_sh1"
+                    {
+                        over "tn__arm0link_hr0003_BlackAbs_ca0D" (
+                            prepend apiSchemas = ["MaterialBindingAPI"]
+                        )
+                        {
+                            rel material:binding = </spot_with_arm/Materials/BlackAbs_14>
+                        }
+
+                        over "tn__arm0link_hr0003_wrap_eUD" (
+                            prepend apiSchemas = ["MaterialBindingAPI"]
+                        )
+                        {
+                            rel material:binding = </spot_with_arm/Materials/wrap_14>
+                        }
+                    }
+
+                    over "arm_link_el0"
+                    {
+                        over "arm_link_el0" (
+                            prepend apiSchemas = ["MaterialBindingAPI"]
+                        )
+                        {
+                            rel material:binding = </spot_with_arm/Materials/BlackAbs_15>
+                        }
+
+                        over "arm_link_el1"
+                        {
+                            over "arm_link_el1"
+                            {
+                                over "tn__arm0link_el1002_BlackAbs_ca0D" (
+                                    prepend apiSchemas = ["MaterialBindingAPI"]
+                                )
+                                {
+                                    rel material:binding = </spot_with_arm/Materials/BlackAbs_16>
+                                }
+
+                                over "tn__arm0link_el1002_wrap_eUD" (
+                                    prepend apiSchemas = ["MaterialBindingAPI"]
+                                )
+                                {
+                                    rel material:binding = </spot_with_arm/Materials/wrap_16>
+                                }
+                            }
+
+                            over "arm_link_wr0"
+                            {
+                                over "arm_link_wr0"
+                                {
+                                    over "GeomSubset_001" (
+                                        prepend apiSchemas = ["MaterialBindingAPI"]
+                                    )
+                                    {
+                                        rel material:binding = </spot_with_arm/Materials/BlackAbs_17>
+                                    }
+
+                                    over "GeomSubset_002" (
+                                        prepend apiSchemas = ["MaterialBindingAPI"]
+                                    )
+                                    {
+                                        rel material:binding = </spot_with_arm/Materials/wrap_17>
+                                    }
+                                }
+
+                                over "arm_link_wr1"
+                                {
+                                    over "arm_link_wr1"
+                                    {
+                                        over "GeomSubset_001" (
+                                            prepend apiSchemas = ["MaterialBindingAPI"]
+                                        )
+                                        {
+                                            rel material:binding = </spot_with_arm/Materials/BlackAbs_18>
+                                        }
+
+                                        over "GeomSubset_002" (
+                                            prepend apiSchemas = ["MaterialBindingAPI"]
+                                        )
+                                        {
+                                            rel material:binding = </spot_with_arm/Materials/wrap_18>
+                                        }
+                                    }
+
+                                    over "arm_link_fngr"
+                                    {
+                                        over "arm_link_fngr"
+                                        {
+                                            over "tn__arm0link_fngr_BlackAbs_dX0" (
+                                                prepend apiSchemas = ["MaterialBindingAPI"]
+                                            )
+                                            {
+                                                rel material:binding = </spot_with_arm/Materials/BlackAbs_19>
+                                            }
+
+                                            over "tn__arm0link_fngr_wrap_fR" (
+                                                prepend apiSchemas = ["MaterialBindingAPI"]
+                                            )
+                                            {
+                                                rel material:binding = </spot_with_arm/Materials/wrap_19>
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+

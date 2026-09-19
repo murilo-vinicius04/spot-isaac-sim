@@ -1,0 +1,3 @@
+[submodule "external/crawl-lab"]
+	path = external/crawl-lab
+	url = https://github.com/murilo-vinicius04/IsaacLab-Faster.git

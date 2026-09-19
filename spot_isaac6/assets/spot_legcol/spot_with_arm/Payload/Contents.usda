@@ -1,0 +1,21 @@
+#usda 1.0
+(
+    "crawl-lab asset, fix_base=False, self_collision=False"
+    customLayerData = {
+        string creator = "URDF USD Converter v0.3.3"
+    }
+    defaultPrim = "spot_with_arm"
+    kilogramsPerUnit = 1
+    metersPerUnit = 1
+    subLayers = [
+        @./Physics.usda@,
+        @./Geometry.usda@,
+        @./Materials.usda@
+    ]
+    upAxis = "Z"
+)
+
+def Xform "spot_with_arm"
+{
+}
+

@@ -5,3 +5,11 @@ assets/drill/** filter=lfs diff=lfs merge=lfs -text
 assets/honeycomb/** filter=lfs diff=lfs merge=lfs -text
 assets/jar/** filter=lfs diff=lfs merge=lfs -text
 assets/veja/** filter=lfs diff=lfs merge=lfs -text
+# spot_isaac6/: robot asset, policy, validation traces and media
+spot_isaac6/**/*.usdc filter=lfs diff=lfs merge=lfs -text
+spot_isaac6/**/*.png filter=lfs diff=lfs merge=lfs -text
+spot_isaac6/**/*.onnx filter=lfs diff=lfs merge=lfs -text
+spot_isaac6/**/*.npz filter=lfs diff=lfs merge=lfs -text
+spot_isaac6/**/*.mp4 filter=lfs diff=lfs merge=lfs -text
+spot_isaac6/**/*.gif filter=lfs diff=lfs merge=lfs -text
+spot_isaac6/**/*.jpg filter=lfs diff=lfs merge=lfs -text

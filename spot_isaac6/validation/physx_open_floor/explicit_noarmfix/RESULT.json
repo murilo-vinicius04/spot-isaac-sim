@@ -1,0 +1,137 @@
+{
+ "act": "explicit",
+ "cmd": [
+  0.5,
+  0.0,
+  0.0
+ ],
+ "height_cmd": 0.56,
+ "lag": 2,
+ "arm_fix": false,
+ "control_steps": 500,
+ "sim_seconds": 10.0,
+ "fell": null,
+ "mean_vx_after_0.5s": 0.5194,
+ "base_height_mean_after_0.5s": 0.541,
+ "distance_m": 5.164,
+ "physics_steps": 2000,
+ "render_updates": 601,
+ "wall_s": 21.8,
+ "policy_ms_per_query": 0.451,
+ "joint_props_read_back": {
+  "fl_hx": {
+   "stiffness": 0.0,
+   "static_friction": 0.00800000037997961,
+   "dynamic_friction": 0.00800000037997961,
+   "armature": 0.0
+  },
+  "fl_hy": {
+   "stiffness": 0.0,
+   "static_friction": 0.00800000037997961,
+   "dynamic_friction": 0.00800000037997961,
+   "armature": 0.0
+  },
+  "fl_kn": {
+   "stiffness": 0.0,
+   "static_friction": 0.18000000715255737,
+   "dynamic_friction": 0.18000000715255737,
+   "armature": 0.0
+  },
+  "fr_hx": {
+   "stiffness": 0.0,
+   "static_friction": 0.00800000037997961,
+   "dynamic_friction": 0.00800000037997961,
+   "armature": 0.0
+  },
+  "fr_hy": {
+   "stiffness": 0.0,
+   "static_friction": 0.00800000037997961,
+   "dynamic_friction": 0.00800000037997961,
+   "armature": 0.0
+  },
+  "fr_kn": {
+   "stiffness": 0.0,
+   "static_friction": 0.18000000715255737,
+   "dynamic_friction": 0.18000000715255737,
+   "armature": 0.0
+  },
+  "hl_hx": {
+   "stiffness": 0.0,
+   "static_friction": 0.00800000037997961,
+   "dynamic_friction": 0.00800000037997961,
+   "armature": 0.0
+  },
+  "hl_hy": {
+   "stiffness": 0.0,
+   "static_friction": 0.00800000037997961,
+   "dynamic_friction": 0.00800000037997961,
+   "armature": 0.0
+  },
+  "hl_kn": {
+   "stiffness": 0.0,
+   "static_friction": 0.18000000715255737,
+   "dynamic_friction": 0.18000000715255737,
+   "armature": 0.0
+  },
+  "hr_hx": {
+   "stiffness": 0.0,
+   "static_friction": 0.00800000037997961,
+   "dynamic_friction": 0.00800000037997961,
+   "armature": 0.0
+  },
+  "hr_hy": {
+   "stiffness": 0.0,
+   "static_friction": 0.00800000037997961,
+   "dynamic_friction": 0.00800000037997961,
+   "armature": 0.0
+  },
+  "hr_kn": {
+   "stiffness": 0.0,
+   "static_friction": 0.18000000715255737,
+   "dynamic_friction": 0.18000000715255737,
+   "armature": 0.0
+  },
+  "arm_sh0": {
+   "stiffness": 0.0,
+   "static_friction": 0.0,
+   "dynamic_friction": 0.0,
+   "armature": 0.009999999776482582
+  },
+  "arm_sh1": {
+   "stiffness": 0.0,
+   "static_friction": 0.0,
+   "dynamic_friction": 0.0,
+   "armature": 0.009999999776482582
+  },
+  "arm_el0": {
+   "stiffness": 0.0,
+   "static_friction": 0.0,
+   "dynamic_friction": 0.0,
+   "armature": 0.009999999776482582
+  },
+  "arm_el1": {
+   "stiffness": 0.0,
+   "static_friction": 0.0,
+   "dynamic_friction": 0.0,
+   "armature": 0.009999999776482582
+  },
+  "arm_wr0": {
+   "stiffness": 0.0,
+   "static_friction": 0.0,
+   "dynamic_friction": 0.0,
+   "armature": 0.009999999776482582
+  },
+  "arm_wr1": {
+   "stiffness": 0.0,
+   "static_friction": 0.0,
+   "dynamic_friction": 0.0,
+   "armature": 0.009999999776482582
+  },
+  "arm_f1x": {
+   "stiffness": 0.0,
+   "static_friction": 0.0,
+   "dynamic_friction": 0.0,
+   "armature": 0.0010000000474974513
+  }
+ }
+}

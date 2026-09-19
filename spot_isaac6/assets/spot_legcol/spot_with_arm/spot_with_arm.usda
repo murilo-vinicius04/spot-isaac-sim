@@ -1,0 +1,30 @@
+#usda 1.0
+(
+    "crawl-lab asset, fix_base=False, self_collision=False"
+    customLayerData = {
+        string creator = "URDF USD Converter v0.3.3"
+    }
+    defaultPrim = "spot_with_arm"
+    kilogramsPerUnit = 1
+    metersPerUnit = 1
+    upAxis = "Z"
+)
+
+def Xform "spot_with_arm" (
+    prepend apiSchemas = ["GeomModelAPI"]
+    assetInfo = {
+        string name = "spot_with_arm"
+    }
+    kind = "component"
+    prepend payload = @./Payload/Contents.usda@
+)
+{
+    float3[] extentsHint = [(-0.430229, -0.224436, -0.691502), (1.276258, 0.22438599, 0.302099), (3.4028235e38, 3.4028235e38, 3.4028235e38), (-3.4028235e38, -3.4028235e38, -3.4028235e38), (3.4028235e38, 3.4028235e38, 3.4028235e38), (-3.4028235e38, -3.4028235e38, -3.4028235e38), (-0.434684, -0.2264784, -0.693), (1.276258, 0.2264784, 0.302)]
+}
+
+def PhysicsScene "PhysicsScene" (
+    prepend payload = @./Payload/Contents.usda@</PhysicsScene>
+)
+{
+}
+

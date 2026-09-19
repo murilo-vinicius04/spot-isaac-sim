@@ -1,0 +1,25 @@
+# From the repo root:
+#   docker compose -f docker/compose.yaml up -d --build
+#   docker compose -f docker/compose.yaml exec isaac /isaac-sim/python.sh spot_isaac6/walk.py
+# The repo is mounted at /repo, so paths in the README work inside the container as written.
+services:
+  isaac:
+    build: .
+    image: spot-isaac-sim:6.0.0
+    runtime: nvidia
+    gpus: all
+    network_mode: host
+    ipc: host
+    environment:
+      - DISPLAY=${DISPLAY:-}              # GUI only; headless runs ignore it
+      - QT_X11_NO_MITSHM=1
+      - NVIDIA_DRIVER_CAPABILITIES=all
+    volumes:
+      - ..:/repo:rw
+      - /tmp/.X11-unix:/tmp/.X11-unix:rw
+      # shader/kit caches, so the second start is fast (gitignored)
+      - ./cache/kit:/isaac-sim/kit/cache:rw
+      - ./cache/ov:/root/.cache/ov:rw
+      - ./cache/glcache:/root/.cache/nvidia/GLCache:rw
+      - ./cache/computecache:/root/.nv/ComputeCache:rw
+    entrypoint: ["/bin/bash", "-lc", "sleep infinity"]

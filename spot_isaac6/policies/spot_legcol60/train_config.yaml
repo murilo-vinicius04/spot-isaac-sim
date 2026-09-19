@@ -1,0 +1,486 @@
+task:
+  name: locomanipulation
+  contact_height_threshold: 0.036
+  arm_stiffness_scale: 1
+  arm_damping_scale: 1
+  action_scales:
+    hx: 0.2
+    hy: 0.2
+    kn: 0.2
+  actuator:
+    gain_mode: explicit
+    hx:
+      kp: 60.0
+      kd: 1.5
+      armature: 0.0
+      friction: 0.008
+      natural_frequency: 0.0
+    hy:
+      kp: 60.0
+      kd: 1.5
+      armature: 0.0
+      friction: 0.008
+      natural_frequency: 0.0
+    kn:
+      kp: 60.0
+      kd: 1.5
+      armature: 0.0
+      friction: 0.18
+      natural_frequency: 0.0
+    delay_steps:
+      hip: 0
+      knee: 0
+      arm: 0
+  terrain:
+    mode: flat
+    representation: per_world
+    seed: 42
+    patch_size: 8.0
+    horizontal_scale: 0.1
+    flat_fraction: 0.3
+    noise_min: 0.01
+    noise_max: 0.07
+    noise_step: 0.02
+    border_width: 0.25
+  contact:
+    tracking: terrain_proxy
+    geometry: primitive
+    refreshes_per_control: 1
+    force_threshold: 1.0
+    history_steps: 3
+    max_triangle_pairs: null
+    sense_illegal_contacts: false
+  termination:
+    mode: geometric
+    upright_min: 0.9
+    height_min: 0.3
+    contact_z: 0.045
+    bad_posture_steps: 1
+  curriculum:
+    dynamic_disturbance_fraction: 0.75
+    force_at_fraction: 0.2
+    force_full_at_fraction: 0.7
+    torque_at_fraction: 0.25
+    torque_full_at_fraction: 0.8
+    push_vel_at_fraction: 0.3
+    push_vel_full_at_fraction: 0.9
+    force_range:
+    - -9.0
+    - 9.0
+    torque_range:
+    - -2.0
+    - 2.0
+    push_vel_range:
+    - -0.4
+    - 0.4
+    wrench_interval_range_s:
+    - 1.5
+    - 4.0
+    wrench_duration_range_s:
+    - 0.3
+    - 1.0
+    lp_acrl:
+      temperature: 0.01
+      uniform_mix: 0.1
+      stage_steps: 256
+      arm_lp:
+        temperature: 0.0085
+        uniform_mix: 0.1
+        stage_steps: 256
+      bins:
+      - name: stance
+        vx:
+        - 0.0
+        - 0.0
+        vy:
+        - 0.0
+        - 0.0
+        wz:
+        - 0.0
+        - 0.0
+      - name: forward_slow
+        vx:
+        - 0.15
+        - 0.4
+        vy:
+        - 0.0
+        - 0.0
+        wz:
+        - 0.0
+        - 0.0
+      - name: forward_fast
+        vx:
+        - 0.4
+        - 0.55
+        vy:
+        - 0.0
+        - 0.0
+        wz:
+        - 0.0
+        - 0.0
+      - name: backward_slow
+        vx:
+        - -0.4
+        - -0.15
+        vy:
+        - 0.0
+        - 0.0
+        wz:
+        - 0.0
+        - 0.0
+      - name: backward_fast
+        vx:
+        - -0.55
+        - -0.4
+        vy:
+        - 0.0
+        - 0.0
+        wz:
+        - 0.0
+        - 0.0
+      - name: lateral_slow
+        vx:
+        - 0.0
+        - 0.0
+        vy:
+        - 0.1
+        - 0.3
+        wz:
+        - 0.0
+        - 0.0
+        random_sign:
+        - vy
+      - name: lateral_fast
+        vx:
+        - 0.0
+        - 0.0
+        vy:
+        - 0.3
+        - 0.45
+        wz:
+        - 0.0
+        - 0.0
+        random_sign:
+        - vy
+      - name: turning_slow
+        vx:
+        - 0.0
+        - 0.0
+        vy:
+        - 0.0
+        - 0.0
+        wz:
+        - 0.15
+        - 0.4
+        random_sign:
+        - wz
+      - name: turning_fast
+        vx:
+        - 0.0
+        - 0.0
+        vy:
+        - 0.0
+        - 0.0
+        wz:
+        - 0.4
+        - 0.55
+        random_sign:
+        - wz
+      - name: forward_lateral
+        vx:
+        - 0.15
+        - 0.55
+        vy:
+        - 0.1
+        - 0.45
+        wz:
+        - 0.0
+        - 0.0
+        random_sign:
+        - vy
+      - name: backward_lateral
+        vx:
+        - -0.55
+        - -0.15
+        vy:
+        - 0.1
+        - 0.45
+        wz:
+        - 0.0
+        - 0.0
+        random_sign:
+        - vy
+      - name: forward_turn
+        vx:
+        - 0.15
+        - 0.55
+        vy:
+        - 0.0
+        - 0.0
+        wz:
+        - 0.15
+        - 0.55
+        random_sign:
+        - wz
+      - name: backward_turn
+        vx:
+        - -0.55
+        - -0.15
+        vy:
+        - 0.0
+        - 0.0
+        wz:
+        - 0.15
+        - 0.55
+        random_sign:
+        - wz
+      - name: lateral_turn
+        vx:
+        - 0.0
+        - 0.0
+        vy:
+        - 0.1
+        - 0.45
+        wz:
+        - 0.15
+        - 0.55
+        random_sign:
+        - vy
+        - wz
+      arm_bins:
+      - name: arm_easy
+        pose_ids:
+        - -1
+        - -1
+        - 56
+        - 57
+        - 58
+        - 59
+        - 66
+        - 67
+        - 68
+        - 69
+        - 82
+        - 83
+        - 84
+        - 92
+        - 93
+        - 94
+      - name: arm_mid
+        pose_ids:
+        - -1
+        - -1
+        - -1
+        - 27
+        - 30
+        - 31
+        - 40
+        - 41
+        - 50
+        - 51
+        - 52
+        - 53
+        - 54
+        - 55
+        - 65
+        - 71
+        - 72
+        - 73
+        - 74
+        - 78
+        - 79
+        - 80
+        - 81
+        - 90
+        - 91
+        - 98
+        - 99
+        - 107
+        - 108
+        - 109
+        - 117
+        - 118
+        - 119
+      - name: arm_hard
+        pose_ids:
+        - -1
+        - -1
+        - -1
+        - 15
+        - 25
+        - 26
+        - 45
+        - 46
+        - 47
+        - 70
+        - 75
+        - 76
+        - 77
+        - 95
+        - 96
+        - 97
+        - 100
+        - 101
+        - 102
+        - 103
+        - 104
+        - 105
+        - 106
+        - 115
+        - 116
+        - 120
+        - 121
+        - 122
+        - 123
+        - 124
+    metric_bins:
+    - forward_fast
+    - backward_fast
+    - lateral_fast
+    - turning_fast
+  startup_dr:
+    friction_range:
+    - 0.3
+    - 1.0
+    reset_command_velocity_scale: 1.0
+    base_mass_delta:
+    - -1.0
+    - 1.0
+    payload_mass_delta:
+    - -0.25
+    - 0.25
+    leg_mass_scale:
+    - 0.95
+    - 1.05
+    kp_scale_range:
+    - 0.995
+    - 1.005
+    kd_scale_range:
+    - 0.99
+    - 1.01
+    actuator_delay_jitter_steps: 3
+    obs_noise_env_scale_range:
+    - 0.8
+    - 1.2
+  video:
+    enabled: true
+    terrain_patch_size: 32.0
+    steps: 300
+    fps: 25
+    width: 640
+    height: 480
+    command:
+    - 0.5
+    - 0.0
+    - 0.0
+  episode_length_s:
+  - 10.0
+  - 20.0
+  commands:
+    roll:
+    - 0.0
+    - 0.0
+    pitch:
+    - 0.0
+    - 0.0
+    height_range:
+    - 0.52
+    - 0.6
+    deployment_height_command: 0.58
+    deployment_orientation_command:
+    - 0.0
+    - 0.0
+    standing_velocity_threshold: 0.05
+    pattern: static_crawl
+    gait_frequency: 1.1
+    foot_height_max: 0.14
+    foot_radius: 0.036
+    kappa: 0.02
+    swing_fraction: 0.25
+    phase_offsets:
+    - 0.0
+    - 0.5
+    - 0.75
+    - 0.25
+  posture:
+    hx: 0.12
+    hy: 0.5
+    kn: -1.0
+    spawn_z: 0.65
+  reward_params:
+    feet_swing_height:
+      height_sigma_sq: 0.0016
+    foot_stance_width:
+      target: 0.3
+  reward_weights:
+    base_linear_velocity: 2.8
+    base_angular_velocity: 2.4
+    base_height: -60.0
+    feet_contact_schedule: 2.3
+    feet_swing_height: 7.0
+    planar_progress: 0.85
+    foot_slip: -0.15
+    foot_impact: -0.05
+    foot_stance_width: -3.0
+    base_orientation: -30.0
+  arm_disturbance:
+    enabled: true
+    csv_path: spot_assets/arm_reachability_poses.csv
+    traj_range_s:
+    - 2.5
+    - 4.0
+    hold_range_s:
+    - 4.0
+    - 7.0
+run:
+  timestamp: 20260828-111409
+  suffix: legcol60
+  name: pufferlib-20260828-111409-legcol60
+seed: 42
+num_envs: 4096
+substeps: 4
+solver_iterations: 20
+solver_njmax: 320
+symmetry: true
+observation_noise: true
+lib:
+  name: pufferlib
+  source_dir: PufferLib
+  network: MinGRU
+  hidden_size: 256
+  num_layers: 2
+  obs_norm: false
+  critic_privileged: true
+  critic_hidden: 48
+  logstd_min: -5.0
+  logstd_max: 1.0
+  actor_init_gain: 0.01
+  save_interval: 1000000
+  wandb: false
+  wandb_project: faster
+  wandb_entity: tommaselli
+  wandb_group: locomanipulation
+  train:
+    total_timesteps: 60000000
+    horizon: 60
+    reward_clip: null
+    minibatch_size: 8192
+    learning_rate: 0.004320244398619558
+    anneal_lr: 1
+    min_lr_ratio: 0.0
+    gamma: 0.99
+    gae_lambda: 0.95
+    replay_ratio: 3.542116202414036
+    clip_coef: 0.2
+    vf_coef: 1.7
+    vf_clip_coef: 0.2
+    max_grad_norm: 1.0683405116200448
+    target_kl: 0.10636963007971643
+    ent_coef: 0.018
+    beta1: 0.95
+    beta2: 0.999
+    eps: 1.0e-12
+    vtrace_rho_clip: 2.7
+    vtrace_c_clip: 0.9
+    prio_alpha: 0.36
+    prio_beta0: 0.27
